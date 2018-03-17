@@ -64,6 +64,7 @@
         "build": "node scripts/build.js",
         "prebuild": "rm -rf build && mkdir build && npm run manifest",
         "manifest": "d2-manifest package.json build/manifest.webapp",
+        "postbuild": "cd build && zip -r -D trackerReport.zip .",
         "test": "node scripts/test.js --env=jsdom"
     },
     "manifest.webapp": {

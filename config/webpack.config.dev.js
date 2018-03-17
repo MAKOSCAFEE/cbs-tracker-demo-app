@@ -9,9 +9,9 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const fs = require('fs');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
-const fs = require('fs');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -23,7 +23,6 @@ const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
-//dhis2 setups
 const dhisConfigPath = process.env.DHIS2_HOME && `${process.env.DHIS2_HOME}/config`;
 
 let dhisConfig;
@@ -57,7 +56,7 @@ const scriptPrefix = dhisConfig.baseUrl;
 module.exports = {
     // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
     // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
-    devtool: 'cheap-module-source-map',
+    devtool: 'source-map',
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     // The first two entry points enable "hot" CSS and auto-refreshes for JS.
@@ -115,7 +114,8 @@ module.exports = {
         alias: {
             // Support React Native Web
             // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-            'react-native': 'react-native-web'
+            'react-native': 'react-native-web',
+            d2: path.resolve('node_modules/d2')
         },
         plugins: [
             // Prevents users from importing files from outside of src/ (or node_modules/).
@@ -221,10 +221,10 @@ module.exports = {
                     // that fall through the other loaders.
                     {
                         // Exclude `js` files to keep "css" loader working as it injects
-                        // its runtime that would otherwise processed through "file" loader.
+                        // it's runtime that would otherwise processed through "file" loader.
                         // Also exclude `html` and `json` extensions so they get processed
                         // by webpacks internal loaders.
-                        exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
+                        exclude: [/\.js$/, /\.html$/, /\.json$/],
                         loader: require.resolve('file-loader'),
                         options: {
                             name: 'static/media/[name].[hash:8].[ext]'
@@ -270,7 +270,7 @@ module.exports = {
         new webpack.NamedModulesPlugin(),
         // Makes some environment variables available to the JS code, for example:
         // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
-        new webpack.DefinePlugin(env.stringified),
+        new webpack.DefinePlugin(globals),
         // This is necessary to emit hot updates (currently CSS only):
         new webpack.HotModuleReplacementPlugin(),
         // Watcher doesn't work well if you mistype casing in a path so we use
