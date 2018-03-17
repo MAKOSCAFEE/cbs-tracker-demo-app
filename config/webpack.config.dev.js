@@ -248,6 +248,9 @@ module.exports = {
             template: paths.appHtml,
             vendorScripts: [
                 `./dhis-web-core-resource/fonts/roboto.css`,
+                `${scriptPrefix}/dhis-web-core-resource/babel-polyfill/6.20.0/dist/polyfill.js`,
+                `${scriptPrefix}/dhis-web-core-resource/react/16.2.0/umd/react.development.js`,
+                `${scriptPrefix}/dhis-web-core-resource/react-dom/16.2.0/umd/react-dom.development.js`,
                 `${scriptPrefix}/dhis-web-core-resource/jquery/3.2.1/dist/jquery.js`,
                 `${scriptPrefix}/dhis-web-core-resource/jquery-migrate/3.0.1/dist/jquery-migrate.js`,
                 `${scriptPrefix}/dhis-web-pivot/reporttable.js`,
