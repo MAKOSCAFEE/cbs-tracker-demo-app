@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './app/App';
 import registerServiceWorker from './registerServiceWorker';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -16,7 +16,7 @@ const init = () => {
     injectTapEventPlugin();
 
     // log app info
-    console.info(`Dashboards app, v${manifest.version}, ${manifest.manifest_generated_at}`);
+    console.info(`Tracker Report App, v${manifest.version}, ${manifest.manifest_generated_at}`);
 
     // d2-ui config
     const isProd = process.env.NODE_ENV === 'production';
