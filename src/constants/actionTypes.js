@@ -26,3 +26,6 @@ export const OPTION_SET_ADD = 'OPTION_SET_ADD';
 /* LOADING */
 export const LOADING = 'LOADING';
 export const LOADED = 'LOADED';
+
+/* FORM */
+export const FORM_SET = 'FORM_SET';

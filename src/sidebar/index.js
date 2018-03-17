@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ProgramSelect from './components/ProgramSelect';
+import ProgramStageSelect from './components/ProgramStageSelect';
 import './index.css';
 
 import { fromPrograms } from '../actions';
@@ -19,7 +20,11 @@ class SidebarComponent extends Component {
                 <div className="title-wrapper">
                     <span className="title">Tracker/Event Report Demo</span>
                 </div>
-                <ProgramSelect programs={this.props.programs} />
+                <ProgramSelect
+                    programs={this.props.programs}
+                    getSelectedProgram={this.getSelectedProgram}
+                />
+                <ProgramStageSelect />
             </div>
         );
     }

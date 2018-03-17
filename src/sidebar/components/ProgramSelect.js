@@ -2,35 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './ProgramSelect.css';
 import SelectField from 'd2-ui/lib/select-field/SelectField';
-
-const items = [
-    {
-        id: 'cat',
-        name: 'Cat'
-    },
-    {
-        id: 'mouse',
-        name: 'Mouse'
-    },
-    {
-        id: 'dog',
-        name: 'Dog'
-    }
-];
+import { fromPrograms, fromForm } from '../../actions';
 
 class ProgramSelect extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selected: items[0].id
-        };
-
+        this.state = {};
         this._handleOnchange = this._handleOnchange.bind(this);
+        this._getProgramStages = this._getProgramStages.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
         const selected = nextProps.programs ? nextProps.programs[0].id : null;
+        const program = nextProps.programs && nextProps.programs[0];
+        this._getProgramStages(program);
         this.setState(state => ({ ...state, programs: nextProps.programs, selected }));
+    }
+
+    _getProgramStages(program) {
+        const { store } = this.context;
+        store.dispatch(fromForm.formSet({ program: program.id }));
+        store.dispatch(fromPrograms.loadProgramStages(program.id));
     }
 
     render() {
@@ -47,7 +39,7 @@ class ProgramSelect extends Component {
     }
 
     _handleOnchange(item) {
-        console.log(this.state);
+        this._getProgramStages(item);
         this.setState(state => ({ selected: item.id }));
     }
 }
@@ -55,6 +47,11 @@ class ProgramSelect extends Component {
 ProgramSelect.propTypes = {
     baseUrl: PropTypes.string,
     programs: PropTypes.array
+};
+
+ProgramSelect.contextTypes = {
+    d2: PropTypes.object,
+    store: PropTypes.object
 };
 
 export default ProgramSelect;
