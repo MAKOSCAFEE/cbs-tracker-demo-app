@@ -13,13 +13,13 @@ import TrackerReport from './constainers/page';
 const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
 
 class App extends Component {
-    componentDidMount() {}
     getChildContext() {
         return {
             baseUrl: this.props.baseUrl,
             i18n
         };
     }
+
     render() {
         return (
             <div className="app-wrapper">
@@ -39,7 +39,8 @@ App.contextTypes = {
 
 App.childContextTypes = {
     baseUrl: PropTypes.string,
-    i18n: PropTypes.object
+    i18n: PropTypes.object,
+    programs: PropTypes.array
 };
 
 export default App;

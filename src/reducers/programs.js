@@ -11,3 +11,5 @@ const programs = (state = null, action) => {
 };
 
 export default programs;
+
+export const sGetPrograms = state => state.programs;

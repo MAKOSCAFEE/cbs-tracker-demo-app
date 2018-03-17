@@ -6,3 +6,6 @@
     align-items: center;
     justify-content: space-between;
 }
+.programSelect .d2-ui-selectfield {
+    min-width: 300px;
+}

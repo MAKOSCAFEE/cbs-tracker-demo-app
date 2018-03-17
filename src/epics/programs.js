@@ -16,8 +16,8 @@ import { errorActionCreator } from '../actions/helpers';
 import { getDisplayPropertyUrl } from '../util/helpers';
 
 export const loadPrograms = action$ =>
-    action$.ofType(types.PROGRAMS_LOAD).concatMap(() =>
-        getD2()
+    action$.ofType(types.PROGRAMS_LOAD).concatMap(() => {
+        return getD2()
             .then(d2 =>
                 d2.models.programs.list({
                     fields: 'id,displayName~rename(name)',
@@ -25,8 +25,8 @@ export const loadPrograms = action$ =>
                 })
             )
             .then(programs => setPrograms(programs.toArray()))
-            .catch(errorActionCreator(types.PROGRAMS_LOAD_ERROR))
-    );
+            .catch(errorActionCreator(types.PROGRAMS_LOAD_ERROR));
+    });
 
 // Load program stages
 export const loadProgramStages = action$ =>

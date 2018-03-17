@@ -27,9 +27,6 @@ const init = () => {
     config.headers = isProd ? null : { Authorization: DHIS_CONFIG.authorization };
 
     config.schemas = [
-        'dashboard',
-        'organisationUnit',
-        'program',
         'dataElement',
         'optionSet',
         'organisationUnit',
