@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './TrackerReport.css';
+import './page.css';
 
 export default class TrackerReport extends Component {
     render() {

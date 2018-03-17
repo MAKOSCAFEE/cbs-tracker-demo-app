@@ -1,0 +1,16 @@
+.leftBar {
+    position: relative;
+    width: 30%;
+    padding: 20px 15px;
+}
+
+.title {
+    position: relative;
+    font-size: 21px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+    min-width: 50px;
+    cursor: default;
+    user-select: text;
+    top: 5px;
+}
