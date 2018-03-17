@@ -1,21 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import PropTypes from 'prop-types';
+import i18n from 'dhis2-i18n';
+
+import HeaderBarComponent from 'd2-ui/lib/app-header/HeaderBar';
+import headerBarStore$ from 'd2-ui/lib/app-header/headerBar.store';
+import withStateFrom from 'd2-ui/lib/component-helpers/withStateFrom';
 import './App.css';
 
+const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
+
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    componentDidMount() {}
+    getChildContext() {
+        return {
+            baseUrl: this.props.baseUrl,
+            i18n
+        };
+    }
+    render() {
+        return (
+            <div className="app-wrapper">
+                <HeaderBar />
+            </div>
+        );
+    }
 }
+App.contextTypes = {
+    d2: PropTypes.object,
+    store: PropTypes.object
+};
+
+App.childContextTypes = {
+    baseUrl: PropTypes.string,
+    i18n: PropTypes.object
+};
 
 export default App;

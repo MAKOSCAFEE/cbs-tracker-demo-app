@@ -82,13 +82,8 @@
         },
         "activities": {
             "dhis": {
-                "href": ".."
+                "href": "../../.."
             }
-        }
-    },
-    "proxy": {
-        "/dhis-web-core-resource": {
-            "target": "https://cbs-dev.dhis2.org"
         }
     },
     "jest": {
