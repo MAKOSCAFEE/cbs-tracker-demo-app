@@ -6,6 +6,7 @@ import ProgramSelect from './components/ProgramSelect';
 import ProgramStageSelect from './components/ProgramStageSelect';
 import OrgUnitContainer from './containers/OrgUnitSelection';
 import IconButton from 'material-ui/IconButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import SvgIcon from 'd2-ui/lib/svg-icon/SvgIcon';
 import './index.css';
 
@@ -67,6 +68,9 @@ class SidebarComponent extends Component {
     };
 
     render() {
+        const { form } = this.props;
+        const disableSubmit =
+            (form && form.program && form.programStages && form.orgUnits) === undefined;
         return (
             <div className="leftBar">
                 <div className="title-wrapper">
@@ -98,6 +102,12 @@ class SidebarComponent extends Component {
                     message={this.state.snackbar.message}
                     autoHideDuration={4000}
                     onRequestClose={this.onSnackbarClose}
+                />
+                <RaisedButton
+                    label="Update Data"
+                    primary={true}
+                    fullWidth={true}
+                    disabled={disableSubmit}
                 />
             </div>
         );
