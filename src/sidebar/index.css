@@ -14,3 +14,19 @@
     user-select: text;
     top: 5px;
 }
+
+.orgUnitSelect {
+    padding: 16px 0;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.button {
+    float: left;
+    padding: 4px;
+    width: 32px;
+    height: 32px;
+}

@@ -1,4 +1,9 @@
 import { combineReducers } from 'redux';
+import orgUnit from './orgUnit';
+import orgUnitTree from './orgUnitTree';
+import orgUnitGroups from './orgUnitGroups';
+import orgUnitGroupSets from './orgUnitGroupSets';
+import orgUnitLevels from './orgUnitLevels';
 import programs from './programs';
 import programDataElements from './programDataElements';
 import programStages from './programStages';
@@ -7,6 +12,11 @@ import programTrackedEntityAttributes from './programTrackedEntityAttributes';
 import form from './form';
 
 export default combineReducers({
+    orgUnit,
+    orgUnitTree,
+    orgUnitGroupSets,
+    orgUnitGroups,
+    orgUnitLevels,
     programs,
     programDataElements,
     programStages,

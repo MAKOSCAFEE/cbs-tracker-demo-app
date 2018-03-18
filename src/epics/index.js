@@ -5,6 +5,7 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/concatMapTo';
 import 'rxjs/add/observable/empty';
 import programEpics from './programs';
+import orgUnitEpis from './orgUnits';
 
 const errorEpic = action$ =>
     action$
@@ -12,4 +13,4 @@ const errorEpic = action$ =>
         .do(action => console.error(action.error))
         .concatMapTo(Observable.empty());
 
-export default combineEpics(errorEpic, programEpics);
+export default combineEpics(errorEpic, programEpics, orgUnitEpis);

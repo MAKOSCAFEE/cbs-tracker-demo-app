@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './ProgramStageSelect.css';
 import SelectField from 'd2-ui/lib/select-field/SelectField';
-import { fromForm } from '../../actions';
+import { formSet } from '../../actions/form';
+import { loadProgramStages } from '../../actions/programs';
 
 import { connect } from 'react-redux';
 
@@ -10,25 +11,22 @@ class ProgramStageSelect extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-
         this._handleOnchange = this._handleOnchange.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-        const { form, programStages } = nextProps;
-        this.setState(state => ({ ...state, programStages: programStages[form.program] }));
-    }
-
     render() {
+        const { form, programStages } = this.props;
+
+        const loading =
+            programStages.constructor === Object && Object.keys(programStages).length === 0;
         return (
             <div className="programStageSelect">
                 <div>Select Program Stage</div>
                 <SelectField
-                    label="Select multiple programStages"
-                    items={this.state.programStages}
+                    items={programStages && programStages[form.program]}
                     value={this.state.selected}
                     onChange={this._handleOnchange}
-                    loading={!this.state.programStages}
+                    loading={loading}
                     multiple
                 />
             </div>
@@ -36,15 +34,17 @@ class ProgramStageSelect extends Component {
     }
 
     _handleOnchange(items) {
+        const { formSet, form } = this.props;
         this.setState(state => ({ selected: items }));
-        const { store } = this.context;
-        store.dispatch(fromForm.formSet({ ...this.props.form, programStages: items }));
+        formSet({ ...form, programStages: items });
     }
 }
 
 ProgramStageSelect.propTypes = {
     programStages: PropTypes.object,
-    form: PropTypes.object
+    form: PropTypes.object,
+    formSet: PropTypes.func,
+    loadProgramStages: PropTypes.func
 };
 
 ProgramStageSelect.contextTypes = {
@@ -57,4 +57,4 @@ const mapStateToProps = state => ({
     programStages: state.programStages
 });
 
-export default connect(mapStateToProps)(ProgramStageSelect);
+export default connect(mapStateToProps, { formSet, loadProgramStages })(ProgramStageSelect);
