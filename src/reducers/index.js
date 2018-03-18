@@ -11,6 +11,7 @@ import programStageDataElements from './programStageDataElements';
 import programTrackedEntityAttributes from './programTrackedEntityAttributes';
 import form from './form';
 import reports from './reports';
+import userSettings from './userSettings';
 
 export default combineReducers({
     orgUnit,
@@ -24,5 +25,6 @@ export default combineReducers({
     programStageDataElements,
     programTrackedEntityAttributes,
     form,
-    reports
+    reports,
+    userSettings
 });

@@ -5,10 +5,10 @@ const defaultState = {};
 const reports = (state = defaultState, action) => {
     switch (action.type) {
         case types.REPORT_SAVE_NEW_SUCCESS:
-            console.log(action);
+            const { reportId, analytics } = action.config;
             return {
                 ...state,
-                [action.reportId]: action.payload
+                [reportId]: analytics
             };
 
         default:

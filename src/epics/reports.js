@@ -15,18 +15,26 @@ export const saveReport = (action$, store) =>
 // Save new report
 export const saveNewReport = action$ =>
     action$.ofType(types.REPORT_SAVE_NEW).concatMap(({ config }) => {
-        const { program, orgUnits } = config;
-        const newAnalyticRequest = getAnalyticsRequest(
-            { id: program },
-            { id: 'LAST_12_MONTHS' },
-            null,
-            null,
-            orgUnits,
-            null,
-            null
+        const { program, orgUnits, programStages } = config;
+
+        const newAnalyticRequest = programStages.map(prid =>
+            getAnalyticsRequest(
+                { id: program },
+                { id: prid },
+                { id: 'LAST_12_MONTHS' },
+                null,
+                null,
+                orgUnits,
+                null,
+                null
+            )
         );
-        return newAnalyticRequest
-            .then(analytics => saveNewReportSuccess(analytics))
+
+        return Promise.all(newAnalyticRequest)
+            .then(analytics => {
+                console.log(analytics);
+                return saveNewReportSuccess({ reportId: program, analytics: analytics[0] });
+            })
             .catch(errorActionCreator(types.PROGRAMS_LOAD_ERROR));
     });
 
@@ -35,6 +43,7 @@ export default combineEpics(saveReport, saveNewReport);
 // Also used to query for server cluster in map/EventLayer.js
 export const getAnalyticsRequest = async (
     program,
+    programStage,
     period,
     startDate,
     endDate,
@@ -46,20 +55,17 @@ export const getAnalyticsRequest = async (
 
     let analyticsRequest = new d2.analytics.request()
         .withProgram(program.id)
-        .withCoordinatesOnly(true);
+        .withStage(programStage.id);
 
     analyticsRequest = period
         ? analyticsRequest.addPeriodFilter(period.id)
         : analyticsRequest.withStartDate(startDate).withEndDate(endDate);
 
     analyticsRequest = analyticsRequest.addOrgUnitDimension(orgUnits.map(ou => ou.id));
-
-    if (eventCoordinateField) {
-        // If coordinate field other than event coordinate
-        analyticsRequest = analyticsRequest
-            .addDimension(eventCoordinateField) // Used by analytics/events/query/
-            .withCoordinateField(eventCoordinateField); // Used by analytics/events/count and analytics/events/cluster
+    if (dataItems) {
+        dataItems.forEach(item => {
+            analyticsRequest = analyticsRequest.addDimension(item.dimension, item.filter);
+        });
     }
-
     return d2.analytics.events.getQuery(analyticsRequest);
 };

@@ -1,16 +1,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import i18next from 'i18next';
 import Snackbar from 'material-ui/Snackbar';
 import ProgramSelect from './components/ProgramSelect';
 import ProgramStageSelect from './components/ProgramStageSelect';
 import OrgUnitContainer from './containers/OrgUnitSelection';
+import RelativePeriodSelect from './components/RelativePeriodSelect';
 import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import SvgIcon from 'd2-ui/lib/svg-icon/SvgIcon';
+import DatePicker from './components/DatePicker';
 import './index.css';
 
 import { saveNewReport } from '../actions/reports';
+import { setPeriodType, setPeriod, setStartDate, setEndDate } from '../actions/form';
+import { EVENT_START_DATE, EVENT_END_DATE } from '../constants/periods';
+
+const styles = {
+    wrapper: {
+        width: '100%',
+        clear: 'both',
+        height: 64
+    },
+    checkbox: {
+        float: 'left',
+        margin: '24px 0 0 12px',
+        width: 180
+    },
+    font: {
+        float: 'left',
+        marginTop: -8
+    },
+    error: {
+        marginTop: 10,
+        color: 'red'
+    }
+};
 
 class SidebarComponent extends Component {
     state = {
@@ -67,7 +93,9 @@ class SidebarComponent extends Component {
     };
 
     render() {
-        const { form } = this.props;
+        const { form, setPeriod, setStartDate, setEndDate } = this.props;
+        const periodError = 'Period is Required';
+        const { period, startDate, endDate } = form;
         const disableSubmit =
             (form && form.program && form.programStages && form.orgUnits) === undefined;
         return (
@@ -94,6 +122,32 @@ class SidebarComponent extends Component {
                     autoHideDuration={4000}
                     onRequestClose={this.onSnackbarClose}
                 />
+                <RelativePeriodSelect
+                    period={period}
+                    onChange={setPeriod}
+                    style={styles.select}
+                    errorText={periodError}
+                    startEndDates={true}
+                />
+                {period &&
+                    period.id === 'START_END_DATES' && [
+                        <DatePicker
+                            key="startdate"
+                            label={i18next.t('Start date')}
+                            value={startDate}
+                            default={EVENT_START_DATE}
+                            onChange={setStartDate}
+                            style={styles.select}
+                        />,
+                        <DatePicker
+                            key="enddate"
+                            label={i18next.t('End date')}
+                            value={endDate}
+                            default={EVENT_END_DATE}
+                            onChange={setEndDate}
+                            style={styles.select}
+                        />
+                    ]}
                 <RaisedButton
                     label="Generate Report"
                     onClick={this.generateReport}
@@ -123,5 +177,10 @@ const mapStateToProps = state => ({
     programs: state.programs,
     form: state.form
 });
-
-export default connect(mapStateToProps, { saveNewReport })(SidebarComponent);
+export default connect(mapStateToProps, {
+    saveNewReport,
+    setPeriodType,
+    setPeriod,
+    setStartDate,
+    setEndDate
+})(SidebarComponent);

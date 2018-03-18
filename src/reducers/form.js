@@ -9,6 +9,29 @@ const form = (state = {}, action) => {
                 ...state,
                 orgUnits: toggleOrgUnitsState(state.orgUnits, action.orgUnit)
             };
+        case types.FORM_PERIOD_TYPE_SET:
+            return {
+                ...state,
+                periodType: action.periodType
+            };
+
+        case types.FORM_PERIOD_SET:
+            return {
+                ...state,
+                period: action.period
+            };
+
+        case types.FORM_START_DATE_SET:
+            return {
+                ...state,
+                startDate: action.startDate
+            };
+
+        case types.FORM_END_DATE_SET:
+            return {
+                ...state,
+                endDate: action.endDate
+            };
         default:
             return state;
     }
