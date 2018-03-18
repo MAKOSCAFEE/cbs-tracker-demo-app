@@ -9,6 +9,8 @@ import { loadPrograms, loadProgramStages } from '../../actions/programs';
 class ProgramSelect extends Component {
     constructor(props) {
         super(props);
+        const { loadPrograms } = this.props;
+        loadPrograms();
         this._handleOnchange = this._handleOnchange.bind(this);
     }
 

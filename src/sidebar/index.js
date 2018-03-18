@@ -10,15 +10,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import SvgIcon from 'd2-ui/lib/svg-icon/SvgIcon';
 import './index.css';
 
-import { fromPrograms } from '../actions';
+import { saveNewReport } from '../actions/reports';
 
 class SidebarComponent extends Component {
-    constructor(props, context) {
-        super(props, context);
-        const { store } = this.context;
-        store.dispatch(fromPrograms.loadPrograms());
-    }
-
     state = {
         orgUnitDialog: {
             open: false
@@ -67,6 +61,11 @@ class SidebarComponent extends Component {
         });
     };
 
+    generateReport = () => {
+        const { form, saveNewReport } = this.props;
+        saveNewReport(form);
+    };
+
     render() {
         const { form } = this.props;
         const disableSubmit =
@@ -76,19 +75,11 @@ class SidebarComponent extends Component {
                 <div className="title-wrapper">
                     <span className="title">Tracker/Event Report Demo</span>
                 </div>
-                <ProgramSelect
-                    programs={this.props.programs}
-                    getSelectedProgram={this.getSelectedProgram}
-                />
+                <ProgramSelect />
                 <ProgramStageSelect />
                 <div className="orgUnitSelect">
                     <div>Select OrgUnits</div>
-                    <IconButton
-                        onClick={this.toggleDialog}
-                        tooltip="Edit"
-                        tooltipPosition="top-center"
-                        className="button"
-                    >
+                    <IconButton onClick={this.toggleDialog} className="button">
                         <SvgIcon icon="Create" />
                     </IconButton>
                 </div>
@@ -104,7 +95,8 @@ class SidebarComponent extends Component {
                     onRequestClose={this.onSnackbarClose}
                 />
                 <RaisedButton
-                    label="Update Data"
+                    label="Generate Report"
+                    onClick={this.generateReport}
                     primary={true}
                     fullWidth={true}
                     disabled={disableSubmit}
@@ -117,7 +109,8 @@ class SidebarComponent extends Component {
 SidebarComponent.propTypes = {
     baseUrl: PropTypes.string,
     programs: PropTypes.array,
-    form: PropTypes.object
+    form: PropTypes.object,
+    saveNewReport: PropTypes.func
 };
 
 SidebarComponent.contextTypes = {
@@ -131,4 +124,4 @@ const mapStateToProps = state => ({
     form: state.form
 });
 
-export default connect(mapStateToProps)(SidebarComponent);
+export default connect(mapStateToProps, { saveNewReport })(SidebarComponent);

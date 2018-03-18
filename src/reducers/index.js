@@ -10,6 +10,7 @@ import programStages from './programStages';
 import programStageDataElements from './programStageDataElements';
 import programTrackedEntityAttributes from './programTrackedEntityAttributes';
 import form from './form';
+import reports from './reports';
 
 export default combineReducers({
     orgUnit,
@@ -22,5 +23,6 @@ export default combineReducers({
     programStages,
     programStageDataElements,
     programTrackedEntityAttributes,
-    form
+    form,
+    reports
 });
