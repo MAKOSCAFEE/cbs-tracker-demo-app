@@ -1,24 +1,52 @@
 import React, { Component } from 'react';
 import './page.css';
 import { Column, Table } from 'react-virtualized';
+import { connect } from 'react-redux';
 
-export default class TrackerReport extends Component {
+const ValueTable = ({ data, isLoading }) => {
+    if (!data) {
+        return 'No values here';
+    }
+
+    if (isLoading) {
+        return 'Loading...';
+    }
+
+    const { headers, metaData, rows } = data;
+
+    return (
+        <section>
+            <table>
+                <thead>
+                    <tr>{headers.map((header, index) => <th key={index}>{header.column}</th>)}</tr>
+                </thead>
+                <tbody>
+                    {rows.map((row, index) => (
+                        <tr key={index}>
+                            {row.map((value, index) => (
+                                <td key={index}>{(metaData.items[value] || {}).name || value}</td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </section>
+    );
+};
+
+class TrackerReport extends Component {
     render() {
-        const list = [{ name: 'Brian Vaughn', description: 'Software engineer' }];
-        return (
-            <div className="page">
-                <Table
-                    width={300}
-                    height={300}
-                    headerHeight={20}
-                    rowHeight={30}
-                    rowCount={list.length}
-                    rowGetter={({ index }) => list[index]}
-                >
-                    <Column label="Name" dataKey="name" width={100} />
-                    <Column width={200} label="Description" dataKey="description" />
-                </Table>
-            </div>
-        );
+        const { data, isLoading } = this.props;
+        console.log(data);
+        const width = typeof window === 'object' ? 0.65 * window.innerWidth : 450;
+        const height = typeof window === 'object' ? 0.65 * window.innerHeight : 600;
+        return <ValueTable data={data} isLoading={isLoading} />;
     }
 }
+
+const mapStateToProps = state => ({
+    data: state.reports.analytics,
+    isLoading: state.reports.loading
+});
+
+export default connect(mapStateToProps)(TrackerReport);

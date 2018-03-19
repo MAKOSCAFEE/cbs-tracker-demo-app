@@ -1,6 +1,7 @@
 import { combineEpics } from 'redux-observable';
 import * as types from '../constants/actionTypes';
 import { apiFetch } from '../util/api';
+import { getMergedAnalytics } from '../util/analytics';
 import { getInstance as getD2 } from 'd2/lib/d2';
 import { errorActionCreator } from '../actions/helpers';
 
@@ -39,8 +40,8 @@ export const saveNewReport = (action$, store) =>
 
         return Promise.all(newAnalyticRequest)
             .then(analytics => {
-                console.log(analytics);
-                return saveNewReportSuccess({ reportId: program, analytics: analytics[0] });
+                const mergedAnalytics = getMergedAnalytics(analytics);
+                return saveNewReportSuccess({ analytics: mergedAnalytics });
             })
             .catch(errorActionCreator(types.PROGRAMS_LOAD_ERROR));
     });

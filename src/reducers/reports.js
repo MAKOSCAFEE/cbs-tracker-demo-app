@@ -1,14 +1,16 @@
 import * as types from '../constants/actionTypes';
 
-const defaultState = {};
-
+const defaultState = {
+    loading: false,
+    analytics: null
+};
 const reports = (state = defaultState, action) => {
     switch (action.type) {
         case types.REPORT_SAVE_NEW_SUCCESS:
-            const { reportId, analytics } = action.config;
+            const { analytics } = action.config;
             return {
                 ...state,
-                [reportId]: analytics
+                analytics
             };
 
         default:

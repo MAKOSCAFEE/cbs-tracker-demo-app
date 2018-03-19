@@ -7,9 +7,9 @@
     }
   },
   "appType": "APP",
-  "name": "Tracker-report App",
-  "version": "0.1.0",
-  "description": "Tracker report app",
+  "name": "CBS Report App",
+  "version": "29.0.20",
+  "description": "CBS Tracker report app for events",
   "icons": {
     "48": "icon.png"
   },
@@ -19,5 +19,5 @@
   "dhis2": {
     "apiVersion": "29"
   },
-  "manifest_generated_at": "Sun Mar 18 2018 09:46:47 GMT+0300 (EAT)"
+  "manifest_generated_at": "Mon Mar 19 2018 15:57:25 GMT+0300 (EAT)"
 }
