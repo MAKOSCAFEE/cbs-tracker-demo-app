@@ -13,22 +13,29 @@ export const saveReport = (action$, store) =>
     });
 
 // Save new report
-export const saveNewReport = action$ =>
+export const saveNewReport = (action$, store) =>
     action$.ofType(types.REPORT_SAVE_NEW).concatMap(({ config }) => {
         const { program, orgUnits, programStages } = config;
+        const state = store.getState();
+        const { programStageDataElements, programTrackedEntityAttributes } = state;
+        const attributes = programTrackedEntityAttributes[program].filter(
+            item => item.id !== 'HAZ7VQ730yn'
+        );
 
-        const newAnalyticRequest = programStages.map(prid =>
-            getAnalyticsRequest(
+        const newAnalyticRequest = programStages.map(prid => {
+            const dataElements = programStageDataElements[prid];
+            const dataItems = [...attributes, ...dataElements];
+            return getAnalyticsRequest(
                 { id: program },
                 { id: prid },
                 { id: 'LAST_12_MONTHS' },
                 null,
                 null,
                 orgUnits,
-                null,
+                dataItems,
                 null
-            )
-        );
+            );
+        });
 
         return Promise.all(newAnalyticRequest)
             .then(analytics => {
@@ -64,7 +71,7 @@ export const getAnalyticsRequest = async (
     analyticsRequest = analyticsRequest.addOrgUnitDimension(orgUnits.map(ou => ou.id));
     if (dataItems) {
         dataItems.forEach(item => {
-            analyticsRequest = analyticsRequest.addDimension(item.dimension, item.filter);
+            analyticsRequest = analyticsRequest.addDimension(item.id);
         });
     }
     return d2.analytics.events.getQuery(analyticsRequest);

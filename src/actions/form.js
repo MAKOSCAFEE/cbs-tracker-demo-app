@@ -5,6 +5,18 @@ export const formSet = payload => ({
     payload
 });
 
+// Set Program
+export const setFormProgram = program => ({
+    type: types.FORM_PROGRAM_SET,
+    program
+});
+
+// Set programStage
+export const setFormProgramStages = programStages => ({
+    type: types.FORM_PROGRAM_STAGES_SET,
+    programStages
+});
+
 export const formToggleOrgUnit = orgUnit => ({
     type: types.TOGGLE_FORM_ORGUNIT,
     orgUnit

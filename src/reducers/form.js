@@ -15,6 +15,18 @@ const form = (state = {}, action) => {
                 periodType: action.periodType
             };
 
+        case types.FORM_PROGRAM_SET:
+            return {
+                ...state,
+                program: action.program
+            };
+
+        case types.FORM_PROGRAM_STAGES_SET:
+            return {
+                ...state,
+                programStages: action.programStages
+            };
+
         case types.FORM_PERIOD_SET:
             return {
                 ...state,

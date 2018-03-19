@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './ProgramStageSelect.css';
 import SelectField from 'd2-ui/lib/select-field/SelectField';
-import { formSet } from '../../actions/form';
+import { setFormProgramStages } from '../../actions/form';
 import { loadProgramStages } from '../../actions/programs';
 
 import { connect } from 'react-redux';
@@ -34,16 +34,16 @@ class ProgramStageSelect extends Component {
     }
 
     _handleOnchange(items) {
-        const { formSet, form } = this.props;
+        const { setFormProgramStages } = this.props;
         this.setState(state => ({ selected: items }));
-        formSet({ ...form, programStages: items });
+        setFormProgramStages(items);
     }
 }
 
 ProgramStageSelect.propTypes = {
     programStages: PropTypes.object,
     form: PropTypes.object,
-    formSet: PropTypes.func,
+    setFormProgramStages: PropTypes.func,
     loadProgramStages: PropTypes.func
 };
 
@@ -57,4 +57,6 @@ const mapStateToProps = state => ({
     programStages: state.programStages
 });
 
-export default connect(mapStateToProps, { formSet, loadProgramStages })(ProgramStageSelect);
+export default connect(mapStateToProps, { setFormProgramStages, loadProgramStages })(
+    ProgramStageSelect
+);

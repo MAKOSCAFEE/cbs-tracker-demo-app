@@ -7,6 +7,7 @@ import 'rxjs/add/observable/empty';
 import programEpics from './programs';
 import orgUnitEpics from './orgUnits';
 import reportEpics from './reports';
+import formEpics from './form';
 
 const errorEpic = action$ =>
     action$
@@ -14,4 +15,4 @@ const errorEpic = action$ =>
         .do(action => console.error(action.error))
         .concatMapTo(Observable.empty());
 
-export default combineEpics(errorEpic, programEpics, orgUnitEpics, reportEpics);
+export default combineEpics(errorEpic, programEpics, orgUnitEpics, reportEpics, formEpics);
