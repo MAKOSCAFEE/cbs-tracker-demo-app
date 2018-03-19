@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './page.css';
-import { Column, Table } from 'react-virtualized';
+// import { Column, Table } from 'react-virtualized';
 import { connect } from 'react-redux';
 
 const ValueTable = ({ data, isLoading }) => {
@@ -37,10 +37,13 @@ const ValueTable = ({ data, isLoading }) => {
 class TrackerReport extends Component {
     render() {
         const { data, isLoading } = this.props;
-        console.log(data);
-        const width = typeof window === 'object' ? 0.65 * window.innerWidth : 450;
-        const height = typeof window === 'object' ? 0.65 * window.innerHeight : 600;
-        return <ValueTable data={data} isLoading={isLoading} />;
+        // const width = typeof window === 'object' ? 0.65 * window.innerWidth : 450;
+        // const height = typeof window === 'object' ? 0.65 * window.innerHeight : 600;
+        return (
+            <div className="page">
+                <ValueTable data={data} isLoading={isLoading} />;
+            </div>
+        );
     }
 }
 

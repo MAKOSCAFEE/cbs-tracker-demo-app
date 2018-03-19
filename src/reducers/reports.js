@@ -10,7 +10,13 @@ const reports = (state = defaultState, action) => {
             const { analytics } = action.config;
             return {
                 ...state,
+                loading: false,
                 analytics
+            };
+        case types.REPORT_SAVE_NEW:
+            return {
+                ...state,
+                loading: true
             };
 
         default:
