@@ -96,8 +96,12 @@ class SidebarComponent extends Component {
         const { form, setPeriod, setStartDate, setEndDate } = this.props;
         const periodError = 'Period is Required';
         const { period, startDate, endDate } = form;
-        const disableSubmit =
-            (form && form.program && form.programStages && form.orgUnits) === undefined;
+        const periodIsSelected =
+            period &&
+            ((period.id === 'START_END_DATES' && startDate && endDate) ||
+                period.id !== 'START_END_DATES');
+        const enableSubmit =
+            form && form.program && form.programStages && form.orgUnits && periodIsSelected;
         return (
             <div className="leftBar">
                 <div className="title-wrapper">
@@ -153,7 +157,7 @@ class SidebarComponent extends Component {
                     onClick={this.generateReport}
                     primary={true}
                     fullWidth={true}
-                    disabled={disableSubmit}
+                    disabled={!enableSubmit}
                 />
             </div>
         );

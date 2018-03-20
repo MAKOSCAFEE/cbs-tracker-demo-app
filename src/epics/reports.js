@@ -16,7 +16,7 @@ export const saveReport = (action$, store) =>
 // Save new report
 export const saveNewReport = (action$, store) =>
     action$.ofType(types.REPORT_SAVE_NEW).concatMap(({ config }) => {
-        const { program, orgUnits, programStages } = config;
+        const { program, orgUnits, programStages, period, startDate, endDate } = config;
         const state = store.getState();
         const { programStageDataElements, programTrackedEntityAttributes } = state;
         const attributes = programTrackedEntityAttributes[program].filter(
@@ -29,9 +29,9 @@ export const saveNewReport = (action$, store) =>
             return getAnalyticsRequest(
                 { id: program },
                 { id: prid },
-                { id: 'LAST_12_MONTHS' },
-                null,
-                null,
+                period,
+                startDate,
+                endDate,
                 orgUnits,
                 dataItems,
                 null
@@ -65,9 +65,10 @@ export const getAnalyticsRequest = async (
         .withProgram(program.id)
         .withStage(programStage.id);
 
-    analyticsRequest = period
-        ? analyticsRequest.addPeriodFilter(period.id)
-        : analyticsRequest.withStartDate(startDate).withEndDate(endDate);
+    analyticsRequest =
+        period && period.id !== 'START_END_DATES'
+            ? analyticsRequest.addPeriodFilter(period.id)
+            : analyticsRequest.withStartDate(startDate).withEndDate(endDate);
 
     analyticsRequest = analyticsRequest.addOrgUnitDimension(orgUnits.map(ou => ou.id));
     if (dataItems) {
