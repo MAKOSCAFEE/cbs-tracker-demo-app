@@ -27,7 +27,7 @@
 .evenRow {
 }
 .oddRow {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .cell,
@@ -40,9 +40,15 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 0 0.5em;
 }
 .headerCell,
 .leftCell {
     font-weight: bold;
+    padding: 0 0.5em;
+}
+
+.cell {
+    border: 1px solid #b2b2b2;
+    border-collapse: collapse;
+    border-spacing: 0;
 }

@@ -5,16 +5,16 @@ import cn from 'classnames';
 import './LineList.css';
 import scrollbarSize from 'dom-helpers/util/scrollbarSize';
 
-const LEFT_COLOR_FROM = hexToRgb('#471061');
-const LEFT_COLOR_TO = hexToRgb('#BC3959');
-const TOP_COLOR_FROM = hexToRgb('#000000');
-const TOP_COLOR_TO = hexToRgb('#333333');
+const LEFT_COLOR_FROM = hexToRgb('#ffffff');
+const LEFT_COLOR_TO = hexToRgb('#ffffff');
+const TOP_COLOR_FROM = hexToRgb('#dae6e8');
+const TOP_COLOR_TO = hexToRgb('#dae6e8');
 
 export default class LineListing extends React.PureComponent {
     constructor(props, context) {
         super(props, context);
 
-        const height = typeof window === 'object' ? 0.87 * window.innerHeight : 600;
+        const height = typeof window === 'object' ? 0.8 * window.innerHeight : 600;
         const { data } = this.props;
         const { headers, rows } = data;
         const columnCount = headers.length;
@@ -44,23 +44,23 @@ export default class LineListing extends React.PureComponent {
         const { data } = this.props;
         const { headers, rows, metaData } = data;
 
-        const _renderBodyCell = ({ columnIndex, key, rowIndex, style }) => {
+        const renderBodyCell = ({ columnIndex, key, rowIndex, style }) => {
             if (columnIndex < 1) {
                 return;
             }
 
-            return _renderLeftSideCell({ columnIndex, key, rowIndex, style });
+            return renderLeftSideCell({ columnIndex, key, rowIndex, style });
         };
 
-        const _renderHeaderCell = ({ columnIndex, key, rowIndex, style }) => {
+        const renderHeaderCell = ({ columnIndex, key, rowIndex, style }) => {
             if (columnIndex < 1) {
                 return;
             }
 
-            return _renderLeftHeaderCell({ columnIndex, key, rowIndex, style });
+            return renderLeftHeaderCell({ columnIndex, key, rowIndex, style });
         };
 
-        const _renderLeftHeaderCell = ({ columnIndex, key, style }) => {
+        const renderLeftHeaderCell = ({ columnIndex, key, style }) => {
             return (
                 <div className="headerCell" key={key} style={style}>
                     {`${headers[columnIndex].column}`}
@@ -68,7 +68,7 @@ export default class LineListing extends React.PureComponent {
             );
         };
 
-        const _renderLeftSideCell = ({ columnIndex, key, rowIndex, style }) => {
+        const renderLeftSideCell = ({ columnIndex, key, rowIndex, style }) => {
             const rowClass =
                 rowIndex % 2 === 0
                     ? columnIndex % 2 === 0 ? 'evenRow' : 'oddRow'
@@ -99,15 +99,15 @@ export default class LineListing extends React.PureComponent {
                     const y = scrollTop / (scrollHeight - clientHeight);
 
                     const leftBackgroundColor = mixColors(LEFT_COLOR_FROM, LEFT_COLOR_TO, y);
-                    const leftColor = '#ffffff';
+                    const leftColor = '#000000';
                     const topBackgroundColor = mixColors(TOP_COLOR_FROM, TOP_COLOR_TO, x);
-                    const topColor = '#ffffff';
+                    const topColor = '#000000';
                     const middleBackgroundColor = mixColors(
                         leftBackgroundColor,
-                        topBackgroundColor,
+                        leftBackgroundColor,
                         0.5
                     );
-                    const middleColor = '#ffffff';
+                    const middleColor = '#000000';
 
                     return (
                         <div className="GridRow">
@@ -124,7 +124,7 @@ export default class LineListing extends React.PureComponent {
                                 }}
                             >
                                 <Grid
-                                    cellRenderer={_renderLeftHeaderCell}
+                                    cellRenderer={renderLeftHeaderCell}
                                     className="HeaderGrid"
                                     width={columnWidth}
                                     height={rowHeight}
@@ -149,7 +149,7 @@ export default class LineListing extends React.PureComponent {
                                 <Grid
                                     overscanColumnCount={overscanColumnCount}
                                     overscanRowCount={overscanRowCount}
-                                    cellRenderer={_renderLeftSideCell}
+                                    cellRenderer={renderLeftSideCell}
                                     columnWidth={columnWidth}
                                     columnCount={1}
                                     className="LeftSideGrid"
@@ -180,7 +180,7 @@ export default class LineListing extends React.PureComponent {
                                                     columnCount={columnCount}
                                                     height={rowHeight}
                                                     overscanColumnCount={overscanColumnCount}
-                                                    cellRenderer={_renderHeaderCell}
+                                                    cellRenderer={renderHeaderCell}
                                                     rowHeight={rowHeight}
                                                     rowCount={1}
                                                     scrollLeft={scrollLeft}
@@ -207,7 +207,7 @@ export default class LineListing extends React.PureComponent {
                                                     onScroll={onScroll}
                                                     overscanColumnCount={overscanColumnCount}
                                                     overscanRowCount={overscanRowCount}
-                                                    cellRenderer={_renderBodyCell}
+                                                    cellRenderer={renderBodyCell}
                                                     rowHeight={rowHeight}
                                                     rowCount={rowCount}
                                                     width={width}
