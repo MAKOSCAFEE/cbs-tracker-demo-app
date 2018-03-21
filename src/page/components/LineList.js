@@ -131,7 +131,7 @@ export default class LineListing extends React.PureComponent {
                                     rowHeight={rowHeight}
                                     columnWidth={columnWidth}
                                     rowCount={1}
-                                    columnCount={1}
+                                    columnCount={3}
                                 />
                             </div>
                             <div
