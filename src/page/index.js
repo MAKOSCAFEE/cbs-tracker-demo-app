@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import './page.css';
 import { connect } from 'react-redux';
-import LineList from './components/LineList';
 import VisualizationPlaceholder from './components/VisualizationPlaceholder';
+import MultiGridLineList from './components/MultiGridLineList';
 
 class TrackerReport extends Component {
     render() {
-        const { data } = this.props;
+        const { data, linelist } = this.props;
 
         return (
             <div className="page">
                 {!data && <VisualizationPlaceholder />}
-                {data && <LineList data={data} />}
+                {data && <MultiGridLineList data={linelist} />}
             </div>
         );
     }
@@ -19,6 +19,7 @@ class TrackerReport extends Component {
 
 const mapStateToProps = state => ({
     data: state.reports.analytics,
+    linelist: state.reports.linelist,
     isLoading: state.reports.loading
 });
 

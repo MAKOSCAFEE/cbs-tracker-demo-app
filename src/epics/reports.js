@@ -18,10 +18,11 @@ export const saveNewReport = (action$, store) =>
     action$.ofType(types.REPORT_SAVE_NEW).concatMap(({ config }) => {
         const { program, orgUnits, programStages, period, startDate, endDate } = config;
         const state = store.getState();
-        const { programStageDataElements, programTrackedEntityAttributes } = state;
+        const { programStageDataElements, programTrackedEntityAttributes, optionSets } = state;
         const attributes = programTrackedEntityAttributes[program].filter(
             item => item.id !== 'HAZ7VQ730yn'
         );
+        const programdataElements = programStages.map(prid => programStageDataElements[prid])[0];
 
         const newAnalyticRequest = programStages.map(prid => {
             const dataElements = programStageDataElements[prid];
@@ -41,7 +42,14 @@ export const saveNewReport = (action$, store) =>
         return Promise.all(newAnalyticRequest)
             .then(analytics => {
                 const mergedAnalytics = getMergedAnalytics(analytics);
-                return saveNewReportSuccess({ analytics: mergedAnalytics });
+                const linelist = transformForTableList(
+                    mergedAnalytics,
+                    attributes,
+                    programdataElements,
+                    optionSets
+                );
+                console.log(linelist);
+                return saveNewReportSuccess({ analytics: mergedAnalytics, linelist });
             })
             .catch(errorActionCreator(types.PROGRAMS_LOAD_ERROR));
     });
@@ -77,4 +85,41 @@ export const getAnalyticsRequest = async (
         });
     }
     return d2.analytics.events.getQuery(analyticsRequest);
+};
+
+const transformForTableList = (analytics, attributes, dataElements, optionSets) => {
+    const { headers, metaData, rows } = analytics;
+    const dataItems = [...attributes, ...dataElements].map(dataitem => dataitem.id);
+    const columns = headers.filter(header => dataItems.includes(header.name));
+    const attributesCount = attributes.length;
+    let columnsSize = {};
+    const tableRows = rows.map((row, index) =>
+        row.reduce((obj, value, index) => {
+            const header = headers[index];
+            if (dataItems.includes(header.name)) {
+                if (header.optionSet) {
+                    const options = optionSets[header.optionSet].options;
+                    const option = options.filter(opt => opt.code === value)[0];
+                    obj[header.name] = (option || metaData.items[value] || {}).name || value;
+                } else {
+                    obj[header.name] = (metaData.items[value] || {}).name || value;
+                }
+                const valueLength =
+                    obj[header.name].length > header.column.length
+                        ? obj[header.name].length
+                        : header.column.length;
+                const size =
+                    columnsSize[header.name] > valueLength ? columnsSize[header.name] : valueLength;
+                columnsSize[header.name] = size;
+            }
+            return obj;
+        }, {})
+    );
+
+    return {
+        rows: tableRows,
+        columns,
+        attributesCount,
+        columnsSize
+    };
 };

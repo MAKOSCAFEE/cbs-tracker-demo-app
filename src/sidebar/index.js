@@ -15,6 +15,7 @@ import './index.css';
 
 import { saveNewReport } from '../actions/reports';
 import { setPeriodType, setPeriod, setStartDate, setEndDate } from '../actions/form';
+import { loadAllOptionSet } from '../actions/optionSets';
 import { EVENT_START_DATE, EVENT_END_DATE } from '../constants/periods';
 
 const styles = {
@@ -39,6 +40,12 @@ const styles = {
 };
 
 class SidebarComponent extends Component {
+    constructor(props) {
+        super(props);
+        const { loadAllOptionSet } = this.props;
+        loadAllOptionSet();
+    }
+
     state = {
         orgUnitDialog: {
             open: false
@@ -186,5 +193,6 @@ export default connect(mapStateToProps, {
     setPeriodType,
     setPeriod,
     setStartDate,
+    loadAllOptionSet,
     setEndDate
 })(SidebarComponent);

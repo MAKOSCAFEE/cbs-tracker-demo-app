@@ -8,6 +8,7 @@ import programEpics from './programs';
 import orgUnitEpics from './orgUnits';
 import reportEpics from './reports';
 import formEpics from './form';
+import optionEpics from './optionSets';
 
 const errorEpic = action$ =>
     action$
@@ -15,4 +16,11 @@ const errorEpic = action$ =>
         .do(action => console.error(action.error))
         .concatMapTo(Observable.empty());
 
-export default combineEpics(errorEpic, programEpics, orgUnitEpics, reportEpics, formEpics);
+export default combineEpics(
+    errorEpic,
+    programEpics,
+    orgUnitEpics,
+    reportEpics,
+    formEpics,
+    optionEpics
+);

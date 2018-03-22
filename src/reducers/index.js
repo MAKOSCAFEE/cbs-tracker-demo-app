@@ -12,6 +12,7 @@ import programTrackedEntityAttributes from './programTrackedEntityAttributes';
 import form from './form';
 import reports from './reports';
 import userSettings from './userSettings';
+import optionSets from './optionSets';
 
 export default combineReducers({
     orgUnit,
@@ -26,5 +27,6 @@ export default combineReducers({
     programTrackedEntityAttributes,
     form,
     reports,
+    optionSets,
     userSettings
 });
