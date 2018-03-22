@@ -11,7 +11,7 @@ export const selectProgramLoadAttributes = (action$, store) =>
         .ofType(types.FORM_PROGRAM_SET)
         .map(({ program }) => loadProgramTrackedEntityAttributes(program));
 
-export const selectProgramStageLoadDataElements = (action$, store) =>
+export const selectProgramStageLoadDataElements = action$ =>
     action$
         .ofType(types.FORM_PROGRAM_STAGES_SET)
         .map(({ programStages }) =>

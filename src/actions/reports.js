@@ -10,9 +10,8 @@ export const saveReport = config => ({
     config
 });
 
-export const saveNewReport = config => ({
-    type: types.REPORT_SAVE_NEW,
-    config
+export const saveNewReport = () => ({
+    type: types.REPORT_SAVE_NEW
 });
 
 export const saveNewReportSuccess = config => ({

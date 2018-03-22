@@ -15,18 +15,22 @@ export const saveReport = (action$, store) =>
 
 // Save new report
 export const saveNewReport = (action$, store) =>
-    action$.ofType(types.REPORT_SAVE_NEW).concatMap(({ config }) => {
-        const { program, orgUnits, programStages, period, startDate, endDate } = config;
+    action$.ofType(types.REPORT_SAVE_NEW).concatMap(() => {
         const state = store.getState();
-        const { programStageDataElements, programTrackedEntityAttributes, optionSets } = state;
-        const attributes = programTrackedEntityAttributes[program].filter(
-            item => item.id !== 'HAZ7VQ730yn'
-        );
+        const {
+            programStageDataElements,
+            programTrackedEntityAttributes,
+            optionSets,
+            form
+        } = state;
+        const { program, orgUnits, programStages, period, startDate, endDate } = form;
+        const attributes =
+            programTrackedEntityAttributes[program].filter(item => item.id !== 'HAZ7VQ730yn') || [];
         const programdataElements = programStages.map(prid => programStageDataElements[prid])[0];
 
         const newAnalyticRequest = programStages.map(prid => {
-            const dataElements = programStageDataElements[prid];
-            const dataItems = [...attributes, ...dataElements];
+            // const dataElements = programStageDataElements[prid] || [];
+            const dataItems = [...attributes];
             return getAnalyticsRequest(
                 { id: program },
                 { id: prid },

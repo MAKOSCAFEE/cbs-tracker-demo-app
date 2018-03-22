@@ -246,7 +246,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             inject: true,
             template: paths.appHtml,
-            vendorScripts: [`./dhis-web-core-resource/fonts/roboto.css`]
+            vendorScripts: [`https://fonts.googleapis.com/css?family=Roboto`]
                 .map(asset => {
                     return /\.js$/.test(asset)
                         ? `<script src="${asset}"></script>`

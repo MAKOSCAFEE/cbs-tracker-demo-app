@@ -95,14 +95,15 @@ class SidebarComponent extends Component {
     };
 
     generateReport = () => {
-        const { form, saveNewReport } = this.props;
-        saveNewReport(form);
+        const { saveNewReport } = this.props;
+        saveNewReport();
     };
 
     render() {
         const { form, setPeriod, setStartDate, setEndDate } = this.props;
         const periodError = 'Period is Required';
-        const { period, startDate, endDate } = form;
+        const { period, startDate, endDate, orgUnits } = form;
+        const orgUnitNames = orgUnits && orgUnits.map(orgUnit => orgUnit.displayName).join(',');
         const periodIsSelected =
             period &&
             ((period.id === 'START_END_DATES' && startDate && endDate) ||
@@ -117,7 +118,7 @@ class SidebarComponent extends Component {
                 <ProgramSelect />
                 <ProgramStageSelect />
                 <div className="orgUnitSelect">
-                    <div>Select OrgUnits</div>
+                    <div>Select OrgUnits ({orgUnitNames || 'None is selected'})</div>
                     <IconButton onClick={this.toggleDialog} className="button">
                         <SvgIcon icon="Create" />
                     </IconButton>
