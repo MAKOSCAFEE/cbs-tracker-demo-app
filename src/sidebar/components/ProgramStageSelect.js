@@ -17,16 +17,15 @@ class ProgramStageSelect extends Component {
     render() {
         const { form, programStages } = this.props;
 
-        const loading =
-            programStages.constructor === Object && Object.keys(programStages).length === 0;
+        const items = programStages && programStages[form.program];
         return (
             <div className="programStageSelect">
                 <div>Select Program Stage</div>
                 <SelectField
-                    items={programStages && programStages[form.program]}
+                    items={items}
                     value={this.state.selected}
                     onChange={this._handleOnchange}
-                    loading={loading}
+                    loading={!items}
                     multiple
                 />
             </div>

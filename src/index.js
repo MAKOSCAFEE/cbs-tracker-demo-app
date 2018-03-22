@@ -11,7 +11,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import D2UIApp from 'd2-ui/lib/app/D2UIApp';
 
 import { config } from 'd2/lib/d2';
-import { muiTheme } from './theme';
+import theme from './theme';
 import store from './store';
 
 const init = () => {
@@ -39,7 +39,7 @@ const init = () => {
     ];
 
     ReactDOM.render(
-        <D2UIApp initConfig={config} muiTheme={muiTheme()}>
+        <D2UIApp initConfig={config} muiTheme={theme}>
             <Provider store={store}>
                 <App baseUrl={baseUrl} />
             </Provider>

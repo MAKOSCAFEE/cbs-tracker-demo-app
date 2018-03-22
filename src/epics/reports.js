@@ -48,7 +48,6 @@ export const saveNewReport = (action$, store) =>
                     programdataElements,
                     optionSets
                 );
-                console.log(linelist);
                 return saveNewReportSuccess({ analytics: mergedAnalytics, linelist });
             })
             .catch(errorActionCreator(types.PROGRAMS_LOAD_ERROR));

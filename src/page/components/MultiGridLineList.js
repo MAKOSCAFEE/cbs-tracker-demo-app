@@ -29,7 +29,7 @@ export default class MultiGridLineList extends React.PureComponent {
         super(props, context);
 
         const { data } = this.props;
-        const height = typeof window === 'object' ? 0.83 * window.innerHeight : 600;
+        const height = typeof window === 'object' ? 0.85 * window.innerHeight : 600;
         this.state = {
             fixedRowCount: 1,
             scrollToColumn: 0,
@@ -50,7 +50,7 @@ export default class MultiGridLineList extends React.PureComponent {
     handleResize(e) {
         e.stopPropagation();
         this.setState({
-            height: 0.83 * window.innerHeight
+            height: 0.85 * window.innerHeight
         });
     }
 
@@ -64,8 +64,8 @@ export default class MultiGridLineList extends React.PureComponent {
 
     render() {
         const { data } = this.state;
-        const { columns, rows, columnsSize } = data;
-        console.log(data);
+        const { columns, rows, columnsSize, attributesCount } = data;
+        const fixedColumnCount = attributesCount < 3 ? attributesCount : 3;
         const cellRenderer = ({ columnIndex, key, rowIndex, style }) => {
             // headers
             if (rowIndex < 1) {
@@ -103,7 +103,7 @@ export default class MultiGridLineList extends React.PureComponent {
                         enableFixedColumnScroll
                         enableFixedRowScroll
                         rowHeight={40}
-                        fixedColumnCount={2}
+                        fixedColumnCount={fixedColumnCount}
                         rowCount={rows.length}
                         columnCount={columns.length}
                         style={STYLE}

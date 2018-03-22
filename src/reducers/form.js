@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes';
 const form = (state = {}, action) => {
     switch (action.type) {
         case types.FORM_SET:
-            return { ...state, ...action.payload };
+            return action.payload;
         case types.TOGGLE_FORM_ORGUNIT:
             return {
                 ...state,
@@ -17,7 +17,6 @@ const form = (state = {}, action) => {
 
         case types.FORM_PROGRAM_SET:
             return {
-                ...state,
                 program: action.program
             };
 

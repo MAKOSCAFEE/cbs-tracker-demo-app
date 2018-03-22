@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import once from 'lodash/fp/once';
 import D2OrgUnitTree from 'd2-ui/lib/org-unit-tree/OrgUnitTree.component';
 import { loadOrgUnitTree } from '../../actions/orgUnits';
+import LoadingMask from 'd2-ui/lib/loading-mask/LoadingMask.component';
 
 const styles = {
     container: {
@@ -68,7 +69,7 @@ class OrgUnitTreeComponent extends Component {
 
         if (!root) {
             // TODO: Add loading indicator
-            return null;
+            return <LoadingMask />;
         }
         return (
             <div style={styles.container}>
