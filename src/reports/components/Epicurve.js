@@ -15,7 +15,6 @@ export default class Epicurve extends PureComponent {
 
         const height = typeof window === 'object' ? 0.83 * window.innerHeight : 600;
         const width = typeof window === 'object' ? 0.7 * window.innerWidth : 600;
-        console.log(window);
         this.state = {
             height,
             width
