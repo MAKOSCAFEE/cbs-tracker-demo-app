@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import './index.css';
 import 'react-virtualized/styles.css';
+import 'react-vis/dist/style.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 

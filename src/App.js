@@ -8,7 +8,7 @@ import withStateFrom from 'd2-ui/lib/component-helpers/withStateFrom';
 import './App.css';
 
 import SidebarComponent from './sidebar';
-import TrackerReport from './page';
+import TrackerReport from './reports';
 
 const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
 

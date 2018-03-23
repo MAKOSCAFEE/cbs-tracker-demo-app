@@ -29,7 +29,7 @@ export default class MultiGridLineList extends React.PureComponent {
         super(props, context);
 
         const { data } = this.props;
-        const height = typeof window === 'object' ? 0.85 * window.innerHeight : 600;
+        const height = typeof window === 'object' ? 0.83 * window.innerHeight : 600;
         this.state = {
             fixedRowCount: 1,
             scrollToColumn: 0,
@@ -50,7 +50,7 @@ export default class MultiGridLineList extends React.PureComponent {
     handleResize(e) {
         e.stopPropagation();
         this.setState({
-            height: 0.85 * window.innerHeight
+            height: 0.83 * window.innerHeight
         });
     }
 
