@@ -13,7 +13,7 @@ export default class LineSeriesComponent extends PureComponent {
     constructor(props) {
         super(props);
 
-        const height = typeof window === 'object' ? 0.83 * window.innerHeight : 600;
+        const height = typeof window === 'object' ? 0.7 * window.innerHeight : 600;
         const width = typeof window === 'object' ? 0.7 * window.innerWidth : 600;
         this.state = {
             height,
@@ -25,9 +25,17 @@ export default class LineSeriesComponent extends PureComponent {
     handleResize(e) {
         e.stopPropagation();
         this.setState({
-            height: 0.83 * window.innerHeight,
+            height: 0.7 * window.innerHeight,
             width: 0.7 * window.innerHeight
         });
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.handleResize);
+    }
+
+    componentWillUnmount() {
+        window.addEventListener('resize', this.handleResize);
     }
 
     render() {

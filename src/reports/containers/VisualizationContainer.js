@@ -39,15 +39,6 @@ class VisualizationContainer extends Component {
 
         return (
             <div>
-                <div className="visualizationTypeSelect">
-                    <div>Select Visualization Type</div>
-                    <SelectField
-                        items={visualizationTypes}
-                        value={selected}
-                        onChange={this._handleOnchange}
-                    />
-                </div>
-
                 {selected === 'lineList' && <MultiGridLineList data={linelist} />}
                 {selected === 'epiCurve' && <EpiCurve />}
                 {selected === 'lineSeries' && <LineSeries />}
