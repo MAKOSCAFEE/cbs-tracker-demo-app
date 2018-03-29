@@ -18,9 +18,17 @@ class ProgramStageSelect extends Component {
         const { form, programStages } = this.props;
 
         const items = programStages && programStages[form.program];
+        const selectedStages =
+            (form &&
+                form.programStages &&
+                items
+                    .filter(({ id }) => form.programStages.includes(id))
+                    .map(item => item.name)
+                    .join(',')) ||
+            'None is selected';
         return (
             <div className="programStageSelect">
-                <div>Select Program Stage</div>
+                <div>Program Stage ({selectedStages})</div>
                 <SelectField
                     items={items}
                     value={this.state.selected}

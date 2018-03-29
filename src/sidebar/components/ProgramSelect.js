@@ -28,7 +28,7 @@ class ProgramSelect extends Component {
 
         return (
             <div className="programSelect">
-                <div>Select Program</div>
+                <div>Program</div>
                 <SelectField
                     items={programs}
                     value={selected}

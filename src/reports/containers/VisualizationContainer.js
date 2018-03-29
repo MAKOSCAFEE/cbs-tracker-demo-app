@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MultiGridLineList from '../components/MultiGridLineList';
-import SelectField from 'd2-ui/lib/select-field/SelectField';
+// import SelectField from 'd2-ui/lib/select-field/SelectField';
 import LoadingMask from 'd2-ui/lib/loading-mask/LoadingMask.component';
 import EpiCurve from '../components/Epicurve';
 import LineSeries from '../components/LineSeries';
@@ -13,6 +13,7 @@ const loadingStatusMask = {
     top: '45%'
 };
 
+/*
 const visualizationTypes = [
     {
         id: 'lineList',
@@ -21,6 +22,7 @@ const visualizationTypes = [
     { id: 'epiCurve', name: 'EpiCurve' },
     { id: 'lineSeries', name: 'Line Series' }
 ];
+*/
 
 class VisualizationContainer extends Component {
     constructor(props) {
