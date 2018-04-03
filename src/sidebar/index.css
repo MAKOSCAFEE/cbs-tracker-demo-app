@@ -73,9 +73,9 @@
 .leftBar.is-closed {
     -webkit-transform: translateX(-27em);
     transform: translateX(-27em);
-    width: 5%;
+    width: 1%;
 }
 
 .leftBarContainer.is-closed {
-    width: 5%;
+    width: 1%;
 }

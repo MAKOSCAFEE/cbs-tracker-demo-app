@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 import { MultiGrid, AutoSizer } from 'react-virtualized';
 import './MultiGridLineList.css';
+import sortByLodash from 'lodash/fp/sortBy';
+import reverse from 'lodash/fp/reverse';
+import SortDirection from '../../constants/sortDirection';
 
 const STYLE = {
     border: '2px solid #ddd'
@@ -29,15 +32,17 @@ export default class MultiGridLineList extends React.PureComponent {
         super(props, context);
 
         const { data } = this.props;
-        const height = typeof window === 'object' ? 0.7 * window.innerHeight : 600;
+        const height = typeof window === 'object' ? 0.8 * window.innerHeight : 600;
         this.state = {
             fixedRowCount: 1,
             scrollToColumn: 0,
             scrollToRow: 0,
             height,
-            data
+            data,
+            sortDirection: SortDirection.ASC
         };
         this.handleResize = this.handleResize.bind(this);
+        this._handleSort = this._handleSort.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -50,7 +55,7 @@ export default class MultiGridLineList extends React.PureComponent {
     handleResize(e) {
         e.stopPropagation();
         this.setState({
-            height: 0.7 * window.innerHeight
+            height: 0.8 * window.innerHeight
         });
     }
 
@@ -63,7 +68,7 @@ export default class MultiGridLineList extends React.PureComponent {
     }
 
     render() {
-        const { data } = this.state;
+        const { data, sortDirection } = this.state;
         const { columns, rows, columnsSize, attributesCount } = data;
         const fixedColumnCount = attributesCount < 3 ? attributesCount : 3;
         const cellRenderer = ({ columnIndex, key, rowIndex, style }) => {
@@ -83,8 +88,21 @@ export default class MultiGridLineList extends React.PureComponent {
         };
         const renderHeaderCell = ({ columnIndex, key, rowIndex, style }) => {
             return (
-                <div className="Cell" key={key} style={style}>
+                <div
+                    className="Cell"
+                    key={key}
+                    style={style}
+                    onClick={() => this._handleSort(columnIndex)}
+                >
                     {columns[columnIndex].column}
+                    <svg width={18} height={18} viewBox="0 0 24 24">
+                        {sortDirection === SortDirection.ASC ? (
+                            <path d="M7 14l5-5 5 5z" />
+                        ) : (
+                            <path d="M7 10l5 5 5-5z" />
+                        )}
+                        <path d="M0 0h24v24H0z" fill="none" />
+                    </svg>
                 </div>
             );
         };
@@ -118,6 +136,45 @@ export default class MultiGridLineList extends React.PureComponent {
                 </AutoSizer>
             </div>
         );
+    }
+
+    _handleSort(columnIndex) {
+        const { sortDirection } = this.state;
+        const _sortDirection =
+            sortDirection === SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC;
+        this._sort({ sortBy: columnIndex, sortDirection: _sortDirection });
+    }
+
+    _sort({ sortBy, sortDirection }) {
+        const { sortBy: prevSortBy, sortDirection: prevSortDirection } = this.state;
+        const { data } = this.props;
+        let sortedData = data.rows;
+
+        // If list was sorted DESC by this column.
+        // Rather than switch to ASC, return to "natural" order.
+        // if (prevSortDirection === SortDirection.DESC) {
+        //     sortBy = null;
+        //     sortDirection = null;
+        // }
+
+        if (sortBy !== prevSortBy || sortDirection !== prevSortDirection) {
+            const { columns, rows } = data;
+
+            console.log(sortDirection);
+
+            if (sortBy != null) {
+                const key = columns[sortBy].name;
+                if (sortDirection === SortDirection.DESC) {
+                    sortedData = sortByLodash(key, rows);
+                    sortedData = reverse(sortedData);
+                } else {
+                    sortedData = sortByLodash(key, rows);
+                }
+                console.log(sortBy);
+            }
+        }
+
+        this.setState({ sortBy, sortDirection, data: { ...data, rows: sortedData } });
     }
 }
 
