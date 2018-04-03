@@ -77,5 +77,6 @@
 }
 
 .leftBarContainer.is-closed {
-    width: 1%;
+    width: 1px;
+    padding: 0;
 }
