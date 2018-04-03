@@ -5,3 +5,9 @@
     border-bottom: 1px solid #eee;
     border-right: 1px solid #eee;
 }
+
+.Cell input {
+    position: relative;
+    width: 90%;
+    height: 80%;
+}

@@ -43,6 +43,7 @@ export default class MultiGridLineList extends React.PureComponent {
         };
         this.handleResize = this.handleResize.bind(this);
         this._handleSort = this._handleSort.bind(this);
+        this.filterCells = this.filterCells.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -76,13 +77,24 @@ export default class MultiGridLineList extends React.PureComponent {
             if (rowIndex < 1) {
                 return renderHeaderCell({ columnIndex, key, rowIndex, style });
             }
+            if (rowIndex === 1) {
+                return renderFilterCell({ columnIndex, key, rowIndex, style });
+            }
             return renderBodyCell({ columnIndex, key, rowIndex, style });
         };
 
         const renderBodyCell = ({ columnIndex, key, rowIndex, style }) => {
             return (
                 <div className="Cell" key={key} style={style}>
-                    {rows[rowIndex][columns[columnIndex].name]}
+                    {rows[rowIndex - 1][columns[columnIndex].name]}
+                </div>
+            );
+        };
+
+        const renderFilterCell = ({ columnIndex, key, rowIndex, style }) => {
+            return (
+                <div className="Cell" key={key} style={style}>
+                    <input onChange={event => this.filterCells(event, columnIndex)} />
                 </div>
             );
         };
@@ -124,7 +136,7 @@ export default class MultiGridLineList extends React.PureComponent {
                             enableFixedRowScroll
                             rowHeight={40}
                             fixedColumnCount={fixedColumnCount}
-                            rowCount={rows.length}
+                            rowCount={(rows && rows.length + 1) || 10}
                             columnCount={columns.length}
                             style={STYLE}
                             styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
@@ -143,6 +155,17 @@ export default class MultiGridLineList extends React.PureComponent {
         const _sortDirection =
             sortDirection === SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC;
         this._sort({ sortBy: columnIndex, sortDirection: _sortDirection });
+    }
+
+    filterCells(evt, columnIndex) {
+        const { data } = this.props;
+        const { rows, columns } = data;
+        const filterValue = evt.target.value.toLowerCase();
+        const columnName = columns[columnIndex].name;
+        const filteredRows = rows.filter(row =>
+            row[columnName].toLowerCase().includes(filterValue)
+        );
+        this.setState({ data: { ...data, rows: filteredRows } });
     }
 
     _sort({ sortBy, sortDirection }) {
@@ -170,7 +193,6 @@ export default class MultiGridLineList extends React.PureComponent {
                 } else {
                     sortedData = sortByLodash(key, rows);
                 }
-                console.log(sortBy);
             }
         }
 
