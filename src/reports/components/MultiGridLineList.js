@@ -94,26 +94,29 @@ export default class MultiGridLineList extends React.PureComponent {
         };
 
         return (
-            <AutoSizer>
-                {({ width }) => (
-                    <MultiGrid
-                        {...this.state}
-                        cellRenderer={cellRenderer}
-                        columnWidth={_getColumnWidth}
-                        enableFixedColumnScroll
-                        enableFixedRowScroll
-                        rowHeight={40}
-                        fixedColumnCount={fixedColumnCount}
-                        rowCount={rows.length}
-                        columnCount={columns.length}
-                        style={STYLE}
-                        styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
-                        styleTopLeftGrid={STYLE_TOP_LEFT_GRID}
-                        styleTopRightGrid={STYLE_TOP_RIGHT_GRID}
-                        width={width}
-                    />
-                )}
-            </AutoSizer>
+            <div>
+                <h4>Number of Rows: {rows.length}</h4>
+                <AutoSizer>
+                    {({ width }) => (
+                        <MultiGrid
+                            {...this.state}
+                            cellRenderer={cellRenderer}
+                            columnWidth={_getColumnWidth}
+                            enableFixedColumnScroll
+                            enableFixedRowScroll
+                            rowHeight={40}
+                            fixedColumnCount={fixedColumnCount}
+                            rowCount={rows.length}
+                            columnCount={columns.length}
+                            style={STYLE}
+                            styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
+                            styleTopLeftGrid={STYLE_TOP_LEFT_GRID}
+                            styleTopRightGrid={STYLE_TOP_RIGHT_GRID}
+                            width={width}
+                        />
+                    )}
+                </AutoSizer>
+            </div>
         );
     }
 }

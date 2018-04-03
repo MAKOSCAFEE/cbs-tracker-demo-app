@@ -53,7 +53,8 @@ class SidebarComponent extends Component {
         snackbar: {
             open: false,
             message: ''
-        }
+        },
+        sidebarClosed: false
     };
 
     toggleDialog = () => {
@@ -61,6 +62,12 @@ class SidebarComponent extends Component {
             orgUnitDialog: {
                 open: !this.state.orgUnitDialog.open
             }
+        });
+    };
+
+    toggleSidebar = () => {
+        this.setState({
+            sidebarClosed: !this.state.sidebarClosed
         });
     };
 
@@ -111,62 +118,70 @@ class SidebarComponent extends Component {
         const enableSubmit =
             form && form.program && form.programStages && form.orgUnits && periodIsSelected;
         return (
-            <div className="leftBar">
-                <div className="title-wrapper">
-                    <span className="title">Tracker/Event Report Demo</span>
+            <div className={'leftBarContainer ' + (this.state.sidebarClosed ? 'is-closed' : '')}>
+                <button
+                    className={'sidebar-toggle ' + (this.state.sidebarClosed ? 'is-closed' : '')}
+                    onClick={this.toggleSidebar}
+                >
+                    <SvgIcon icon="ChevronRight" className="icon" />
+                </button>
+                <div className={'leftBar ' + (this.state.sidebarClosed ? 'is-closed' : '')}>
+                    <div className="title-wrapper">
+                        <span className="title">Tracker/Event Report Demo</span>
+                    </div>
+                    <ProgramSelect />
+                    <ProgramStageSelect />
+                    <div className="orgUnitSelect">
+                        <div>Select OrgUnits ({orgUnitNames || 'None is selected'})</div>
+                        <IconButton onClick={this.toggleDialog} className="button">
+                            <SvgIcon icon="Create" />
+                        </IconButton>
+                    </div>
+                    <OrgUnitContainer
+                        open={this.state.orgUnitDialog.open}
+                        onRequestClose={this.toggleDialog}
+                        onOrgUnitSelect={this.onOrgUnitSelect}
+                    />
+                    <Snackbar
+                        open={this.state.snackbar.open}
+                        message={this.state.snackbar.message}
+                        autoHideDuration={4000}
+                        onRequestClose={this.onSnackbarClose}
+                    />
+                    <RelativePeriodSelect
+                        period={period}
+                        onChange={setPeriod}
+                        style={styles.select}
+                        errorText={periodError}
+                        startEndDates={true}
+                    />
+                    {period &&
+                        period.id === 'START_END_DATES' && [
+                            <DatePicker
+                                key="startdate"
+                                label={i18next.t('Start date')}
+                                value={startDate}
+                                default={EVENT_START_DATE}
+                                onChange={setStartDate}
+                                style={styles.select}
+                            />,
+                            <DatePicker
+                                key="enddate"
+                                label={i18next.t('End date')}
+                                value={endDate}
+                                default={EVENT_END_DATE}
+                                onChange={setEndDate}
+                                style={styles.select}
+                            />
+                        ]}
+                    <RaisedButton
+                        label="Generate Report"
+                        onClick={this.generateReport}
+                        primary={true}
+                        fullWidth={true}
+                        disabled={!enableSubmit}
+                    />
                 </div>
-                <ProgramSelect />
-                <ProgramStageSelect />
-                <div className="orgUnitSelect">
-                    <div>Select OrgUnits ({orgUnitNames || 'None is selected'})</div>
-                    <IconButton onClick={this.toggleDialog} className="button">
-                        <SvgIcon icon="Create" />
-                    </IconButton>
-                </div>
-                <OrgUnitContainer
-                    open={this.state.orgUnitDialog.open}
-                    onRequestClose={this.toggleDialog}
-                    onOrgUnitSelect={this.onOrgUnitSelect}
-                />
-                <Snackbar
-                    open={this.state.snackbar.open}
-                    message={this.state.snackbar.message}
-                    autoHideDuration={4000}
-                    onRequestClose={this.onSnackbarClose}
-                />
-                <RelativePeriodSelect
-                    period={period}
-                    onChange={setPeriod}
-                    style={styles.select}
-                    errorText={periodError}
-                    startEndDates={true}
-                />
-                {period &&
-                    period.id === 'START_END_DATES' && [
-                        <DatePicker
-                            key="startdate"
-                            label={i18next.t('Start date')}
-                            value={startDate}
-                            default={EVENT_START_DATE}
-                            onChange={setStartDate}
-                            style={styles.select}
-                        />,
-                        <DatePicker
-                            key="enddate"
-                            label={i18next.t('End date')}
-                            value={endDate}
-                            default={EVENT_END_DATE}
-                            onChange={setEndDate}
-                            style={styles.select}
-                        />
-                    ]}
-                <RaisedButton
-                    label="Generate Report"
-                    onClick={this.generateReport}
-                    primary={true}
-                    fullWidth={true}
-                    disabled={!enableSubmit}
-                />
             </div>
         );
     }
