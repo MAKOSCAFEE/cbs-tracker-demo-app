@@ -23,14 +23,12 @@ export const saveNewReport = (action$, store) =>
             optionSets,
             form
         } = state;
-        const { program, orgUnits, programStages, period, startDate, endDate } = form;
+        const { program, orgUnits, programStages, period, startDate, endDate, filters } = form;
         const attributes =
             programTrackedEntityAttributes[program].filter(item => item.id !== 'HAZ7VQ730yn') || [];
         const programdataElements = programStages.map(prid => programStageDataElements[prid])[0];
 
         const newAnalyticRequest = programStages.map(prid => {
-            // const dataElements = programStageDataElements[prid] || [];
-            const dataItems = [...attributes];
             return getAnalyticsRequest(
                 { id: program },
                 { id: prid },
@@ -38,7 +36,7 @@ export const saveNewReport = (action$, store) =>
                 startDate,
                 endDate,
                 orgUnits,
-                dataItems,
+                filters,
                 null
             );
         });
@@ -84,7 +82,7 @@ export const getAnalyticsRequest = async (
     analyticsRequest = analyticsRequest.addOrgUnitDimension(orgUnits.map(ou => ou.id));
     if (dataItems) {
         dataItems.forEach(item => {
-            analyticsRequest = analyticsRequest.addDimension(item.id);
+            analyticsRequest = analyticsRequest.addDimension(item);
         });
     }
     return d2.analytics.events.getQuery(analyticsRequest);

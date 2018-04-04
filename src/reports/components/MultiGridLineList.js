@@ -33,11 +33,13 @@ export default class MultiGridLineList extends React.PureComponent {
 
         const { data } = this.props;
         const height = typeof window === 'object' ? 0.8 * window.innerHeight : 600;
+        const width = typeof window === 'object' ? 0.73 * window.innerWidth : 600;
         this.state = {
             fixedRowCount: 2,
             scrollToColumn: 0,
             scrollToRow: 0,
             height,
+            width,
             data,
             sortDirection: SortDirection.ASC
         };
@@ -142,7 +144,7 @@ export default class MultiGridLineList extends React.PureComponent {
                             styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
                             styleTopLeftGrid={STYLE_TOP_LEFT_GRID}
                             styleTopRightGrid={STYLE_TOP_RIGHT_GRID}
-                            width={width}
+                            width={this.state.width}
                         />
                     )}
                 </AutoSizer>
