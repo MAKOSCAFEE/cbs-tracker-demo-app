@@ -34,6 +34,12 @@ export const setPeriod = period => ({
     period
 });
 
+// Set filters
+export const setFilters = filters => ({
+    type: types.FORM_FILTERS_SET,
+    filters
+});
+
 // Set start date (event)
 export const setStartDate = startDate => ({
     type: types.FORM_START_DATE_SET,

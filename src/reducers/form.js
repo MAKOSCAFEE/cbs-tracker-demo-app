@@ -32,16 +32,16 @@ const form = (state = {}, action) => {
                 period: action.period
             };
 
+        case types.FORM_FILTERS_SET:
+            return {
+                ...state,
+                filters: action.filters
+            };
+
         case types.FORM_START_DATE_SET:
             return {
                 ...state,
                 startDate: action.startDate
-            };
-        case types.DATA_FILTER_SET:
-        case types.DATA_FILTER_CLEAR:
-            return {
-                ...state,
-                filters: state.filters.map(l => form(l, action))
             };
 
         case types.FORM_END_DATE_SET:

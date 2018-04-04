@@ -11,6 +11,7 @@ import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import SvgIcon from 'd2-ui/lib/svg-icon/SvgIcon';
 import DatePicker from './components/DatePicker';
+import SelectionGroupEditor from './components/SelectionGroupEditor';
 import './index.css';
 
 import { saveNewReport } from '../actions/reports';
@@ -131,6 +132,7 @@ class SidebarComponent extends Component {
                     </div>
                     <ProgramSelect />
                     <ProgramStageSelect />
+                    <SelectionGroupEditor />
                     <div className="orgUnitSelect">
                         <div>Select OrgUnits ({orgUnitNames || 'None is selected'})</div>
                         <IconButton onClick={this.toggleDialog} className="button">
