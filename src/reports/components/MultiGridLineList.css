@@ -11,3 +11,34 @@
     width: 90%;
     height: 80%;
 }
+
+.downloadButton {
+    border: 10px;
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0px;
+    padding: 0px;
+    outline: none;
+    font-size: inherit;
+    font-weight: inherit;
+    position: relative;
+    color: black;
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
+    max-width: 200px;
+    border-radius: 2px;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    background-color: rgb(39, 102, 150);
+    text-align: center;
+}
+
+.LineListing__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

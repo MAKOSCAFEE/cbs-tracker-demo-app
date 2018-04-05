@@ -6,6 +6,7 @@ import './MultiGridLineList.css';
 import sortByLodash from 'lodash/fp/sortBy';
 import reverse from 'lodash/fp/reverse';
 import SortDirection from '../../constants/sortDirection';
+import { CSVLink } from 'react-csv';
 
 const STYLE = {
     border: '2px solid #ddd'
@@ -73,6 +74,9 @@ export default class MultiGridLineList extends React.PureComponent {
     render() {
         const { data, sortDirection } = this.state;
         const { columns, rows, columnsSize, attributesCount } = data;
+        const columnEntity = columns.reduce((obj, item) => {
+            return obj.concat({ label: item.column, key: item.name });
+        }, []);
         const fixedColumnCount = attributesCount < 3 ? attributesCount : 3;
         const cellRenderer = ({ columnIndex, key, rowIndex, style }) => {
             // headers
@@ -127,7 +131,20 @@ export default class MultiGridLineList extends React.PureComponent {
 
         return (
             <div>
-                <h4>Number of Rows: {rows.length}</h4>
+                <div className="LineListing__header">
+                    <h4>Number of Rows: {rows.length}</h4>
+                    {rows.length && (
+                        <CSVLink
+                            data={rows}
+                            headers={columnEntity}
+                            filename={'LineListing.csv'}
+                            className="downloadButton"
+                            target=""
+                        >
+                            Export To Csv
+                        </CSVLink>
+                    )}
+                </div>
                 <AutoSizer>
                     {({ width }) => (
                         <MultiGrid
