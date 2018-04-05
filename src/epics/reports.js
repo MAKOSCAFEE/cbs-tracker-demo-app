@@ -90,7 +90,11 @@ export const getAnalyticsRequest = async (
 
 const transformForTableList = (analytics, attributes, dataElements, optionSets) => {
     const { headers, metaData, rows } = analytics;
-    const dataItems = [...attributes, ...dataElements].map(dataitem => dataitem.id);
+    const defaultColumns = ['eventdate', 'ouname', 'longitude', 'latitude'];
+    const dataItems = [
+        ...defaultColumns,
+        ...[...attributes, ...dataElements].map(dataitem => dataitem.id)
+    ];
     const columns = headers.filter(header => dataItems.includes(header.name));
     const attributesCount = attributes.length;
     let columnsSize = {};

@@ -5,6 +5,7 @@ import { MultiGrid, AutoSizer } from 'react-virtualized';
 import './MultiGridLineList.css';
 import sortByLodash from 'lodash/fp/sortBy';
 import reverse from 'lodash/fp/reverse';
+
 import SortDirection from '../../constants/sortDirection';
 import { CSVLink } from 'react-csv';
 
@@ -133,7 +134,7 @@ export default class MultiGridLineList extends React.PureComponent {
             <div>
                 <div className="LineListing__header">
                     <h4>Number of Rows: {rows.length}</h4>
-                    {rows.length && (
+                    {rows.length ? (
                         <CSVLink
                             data={rows}
                             headers={columnEntity}
@@ -143,28 +144,34 @@ export default class MultiGridLineList extends React.PureComponent {
                         >
                             Export To Csv
                         </CSVLink>
+                    ) : (
+                        ''
                     )}
                 </div>
-                <AutoSizer>
-                    {({ width }) => (
-                        <MultiGrid
-                            {...this.state}
-                            cellRenderer={cellRenderer}
-                            columnWidth={_getColumnWidth}
-                            enableFixedColumnScroll
-                            enableFixedRowScroll
-                            rowHeight={40}
-                            fixedColumnCount={fixedColumnCount}
-                            rowCount={(rows && rows.length + 1) || 10}
-                            columnCount={columns.length}
-                            style={STYLE}
-                            styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
-                            styleTopLeftGrid={STYLE_TOP_LEFT_GRID}
-                            styleTopRightGrid={STYLE_TOP_RIGHT_GRID}
-                            width={this.state.width}
-                        />
-                    )}
-                </AutoSizer>
+                {rows.length ? (
+                    <AutoSizer>
+                        {({ width }) => (
+                            <MultiGrid
+                                {...this.state}
+                                cellRenderer={cellRenderer}
+                                columnWidth={_getColumnWidth}
+                                enableFixedColumnScroll
+                                enableFixedRowScroll
+                                rowHeight={40}
+                                fixedColumnCount={fixedColumnCount}
+                                rowCount={(rows && rows.length + 1) || 10}
+                                columnCount={columns.length}
+                                style={STYLE}
+                                styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
+                                styleTopLeftGrid={STYLE_TOP_LEFT_GRID}
+                                styleTopRightGrid={STYLE_TOP_RIGHT_GRID}
+                                width={Number.isFinite(width) ? width : this.state.width}
+                            />
+                        )}
+                    </AutoSizer>
+                ) : (
+                    <div>There is no data</div>
+                )}
             </div>
         );
     }
