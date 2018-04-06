@@ -165,7 +165,7 @@ export default class MultiGridLineList extends React.PureComponent {
                                 styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
                                 styleTopLeftGrid={STYLE_TOP_LEFT_GRID}
                                 styleTopRightGrid={STYLE_TOP_RIGHT_GRID}
-                                width={Number.isFinite(width) ? width : this.state.width}
+                                width={width}
                             />
                         )}
                     </AutoSizer>
