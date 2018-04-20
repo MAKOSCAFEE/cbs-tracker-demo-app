@@ -12,6 +12,10 @@
     height: 80%;
 }
 
+.ReactTable .rt-tbody .rt-td {
+    text-align: center;
+}
+
 .downloadButton {
     border: 10px;
     box-sizing: border-box;
@@ -41,4 +45,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.LineListing {
+    position: relative;
+    height: 100%;
 }

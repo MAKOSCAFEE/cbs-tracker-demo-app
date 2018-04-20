@@ -23,7 +23,7 @@ class App extends Component {
     render() {
         return (
             <div className="app-wrapper">
-                <HeaderBar />
+                <HeaderBar className="headerBar" />
                 <div className="box">
                     <SidebarComponent />
                     <TrackerReport />
