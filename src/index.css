@@ -1,18 +1,22 @@
-html {
+html,
+body {
+    margin: 0;
     height: 100%;
+    width: 100%;
+    min-height: 100%;
 }
 body {
     margin: 0;
     padding: 0;
-    min-height: 100%;
     display: flex;
+    overflow: hidden;
+    flex-direction: column;
     font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 #root {
-    margin-top: 48px;
     display: flex;
-    width: 100%;
-    min-height: 100%;
+    flex: 1;
     position: relative;
+    flex-direction: column;
 }

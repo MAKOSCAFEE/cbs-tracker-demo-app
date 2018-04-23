@@ -49,8 +49,10 @@
         "react-csv": "^1.0.14",
         "react-dev-utils": "^5.0.0",
         "react-dom": "^16.2.0",
+        "react-excel-workbook": "^0.0.4",
         "react-i18next": "^7.3.6",
         "react-redux": "^5.0.6",
+        "react-table": "^6.8.2",
         "react-tap-event-plugin": "^3.0.2",
         "react-virtualized": "^9.18.5",
         "react-vis": "^1.9.2",
@@ -74,7 +76,7 @@
         "build": "node scripts/build.js",
         "prebuild": "rm -rf build && mkdir build && npm run manifest",
         "manifest": "d2-manifest package.json build/manifest.webapp",
-        "postbuild": "cd build && zip -r -D trackerReport.zip .",
+        "postbuild": "cd build && zip -r -D cbsLineListing.zip .",
         "test": "node scripts/test.js --env=jsdom"
     },
     "manifest.webapp": {

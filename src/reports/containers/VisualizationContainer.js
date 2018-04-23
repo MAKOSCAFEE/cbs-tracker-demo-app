@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import MultiGridLineList from '../components/MultiGridLineList';
 // import SelectField from 'd2-ui/lib/select-field/SelectField';
 import LoadingMask from 'd2-ui/lib/loading-mask/LoadingMask.component';
-import EpiCurve from '../components/Epicurve';
-import LineSeries from '../components/LineSeries';
+// import EpiCurve from '../components/Epicurve';
+// import LineSeries from '../components/LineSeries';
 import { connect } from 'react-redux';
 import './VisualizationContainer.css';
 
@@ -34,18 +34,11 @@ class VisualizationContainer extends Component {
     }
     render() {
         const { isLoading, linelist } = this.props;
-        const { selected } = this.state;
         if (isLoading) {
             return <LoadingMask style={loadingStatusMask} />;
         }
 
-        return (
-            <div>
-                {selected === 'lineList' && <MultiGridLineList data={linelist} />}
-                {selected === 'epiCurve' && <EpiCurve />}
-                {selected === 'lineSeries' && <LineSeries />}
-            </div>
-        );
+        return <MultiGridLineList data={linelist} />;
     }
 
     _handleOnchange(visualizationType) {

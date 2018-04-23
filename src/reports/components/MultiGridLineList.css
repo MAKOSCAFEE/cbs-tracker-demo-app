@@ -12,6 +12,10 @@
     height: 80%;
 }
 
+.ReactTable .rt-tbody .rt-td {
+    text-align: center;
+}
+
 .downloadButton {
     border: 10px;
     box-sizing: border-box;
@@ -20,8 +24,8 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     cursor: pointer;
     text-decoration: none;
-    margin: 0px;
-    padding: 0px;
+    margin: 12px 0;
+    padding: 0 12px;
     outline: none;
     font-size: inherit;
     font-weight: inherit;
@@ -41,4 +45,33 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.LineListing {
+    position: relative;
+    height: 100%;
+}
+
+.ButtonGroups {
+    display: flex;
+}
+
+.ButtonGroups span {
+    display: flex;
+    margin: 0 12px;
+    min-width: 150px;
+}
+
+.rt-th.rt-resizable-header.-sort-asc.-cursor-pointer,
+.rt-th.rt-resizable-header.-sort-desc.-cursor-pointer {
+    display: inline-flex;
+    justify-content: space-around;
+}
+
+.rt-th.rt-resizable-header.-sort-asc.-cursor-pointer::after {
+    content: '▲';
+}
+
+.rt-th.rt-resizable-header.-sort-desc.-cursor-pointer::after {
+    content: '▼';
 }
