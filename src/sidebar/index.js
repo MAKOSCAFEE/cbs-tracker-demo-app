@@ -128,7 +128,7 @@ class SidebarComponent extends Component {
                 </button>
                 <div className={'leftBar ' + (this.state.sidebarClosed ? 'is-closed' : '')}>
                     <div className="title-wrapper">
-                        <span className="title">Tracker/Event Report Demo</span>
+                        <span className="title">CBS Line Listing</span>
                     </div>
                     <ProgramSelect />
                     <ProgramStageSelect />

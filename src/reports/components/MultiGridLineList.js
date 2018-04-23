@@ -7,14 +7,16 @@ import 'react-table/react-table.css';
 import ReactTable from 'react-table';
 import Workbook from 'react-excel-workbook';
 import { CSVLink } from 'react-csv';
+import { connect } from 'react-redux';
 
-export default class MultiGridLineList extends React.PureComponent {
+export class MultiGridLineList extends React.PureComponent {
     constructor(props, context) {
         super(props, context);
 
-        const { data } = this.props;
+        const { data, optionSets } = this.props;
         this.state = {
-            data
+            data,
+            optionSets
         };
     }
 
@@ -26,15 +28,45 @@ export default class MultiGridLineList extends React.PureComponent {
     }
 
     render() {
-        const { data } = this.state;
+        const { data, optionSets } = this.state;
         const { columns, rows, columnsSize } = data;
 
-        const reactTableColumns = columns.map(({ column, name }, index) => {
+        const reactTableColumns = columns.map(({ column, name, optionSet }, index) => {
             const rColumn = {
                 Header: column,
                 accessor: name,
                 width: columnsSize[name] * 60 * 0.16
             };
+            if (optionSet) {
+                const options = optionSets[optionSet].options;
+                const FilterMethod = (filter, row) => {
+                    const rowValue = String(row[filter.id]).toLowerCase();
+                    const filterValue = String(filter.value).toLowerCase();
+                    if (filterValue === 'clearfilter') {
+                        return true;
+                    }
+                    return rowValue === filterValue;
+                };
+                const Filter = ({ filter, onChange }) => (
+                    <select
+                        onChange={event => onChange(event.target.value)}
+                        style={{ width: '100%' }}
+                        value={filter ? filter.value : 'clearfilter'}
+                    >
+                        <option value="clearfilter" key="cf">
+                            Show all
+                        </option>
+                        {options.map(({ code, name }, index) => (
+                            <option value={name} key={index}>
+                                {name}
+                            </option>
+                        ))}
+                    </select>
+                );
+
+                rColumn['Filter'] = Filter;
+                rColumn['FilterMethod'] = FilterMethod;
+            }
             return rColumn;
         });
         const columnEntity = columns.reduce((obj, item) => {
@@ -84,6 +116,9 @@ export default class MultiGridLineList extends React.PureComponent {
                                 defaultFilterMethod={(filter, row) => {
                                     const rowValue = String(row[filter.id]).toLowerCase();
                                     const filterValue = String(filter.value).toLowerCase();
+                                    if (filterValue === 'clearfilter') {
+                                        return true;
+                                    }
                                     return rowValue.includes(filterValue);
                                 }}
                                 columns={reactTableColumns}
@@ -105,3 +140,9 @@ export default class MultiGridLineList extends React.PureComponent {
 MultiGridLineList.propTypes = {
     data: PropTypes.object
 };
+
+const mapStateToProps = state => ({
+    optionSets: state.optionSets
+});
+
+export default connect(mapStateToProps)(MultiGridLineList);
