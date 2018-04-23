@@ -5,7 +5,7 @@ import { AutoSizer } from 'react-virtualized';
 import './MultiGridLineList.css';
 import 'react-table/react-table.css';
 import ReactTable from 'react-table';
-
+import Workbook from 'react-excel-workbook';
 import { CSVLink } from 'react-csv';
 
 export default class MultiGridLineList extends React.PureComponent {
@@ -29,11 +29,14 @@ export default class MultiGridLineList extends React.PureComponent {
         const { data } = this.state;
         const { columns, rows, columnsSize } = data;
 
-        const reactTableColumns = columns.map(({ column, name }) => ({
-            Header: column,
-            accessor: name,
-            width: columnsSize[name] * 60 * 0.16
-        }));
+        const reactTableColumns = columns.map(({ column, name }, index) => {
+            const rColumn = {
+                Header: column,
+                accessor: name,
+                width: columnsSize[name] * 60 * 0.16
+            };
+            return rColumn;
+        });
         const columnEntity = columns.reduce((obj, item) => {
             return obj.concat({ label: item.column, key: item.name });
         }, []);
@@ -43,15 +46,29 @@ export default class MultiGridLineList extends React.PureComponent {
                 <div className="LineListing__header">
                     <h4>Number of Rows: {rows.length}</h4>
                     {rows.length ? (
-                        <CSVLink
-                            data={rows}
-                            headers={columnEntity}
-                            filename={'LineListing.csv'}
-                            className="downloadButton"
-                            target=""
-                        >
-                            Export To Csv
-                        </CSVLink>
+                        <div className="ButtonGroups">
+                            <Workbook
+                                filename="LineListing.xlsx"
+                                element={
+                                    <button className="downloadButton">Export to Excel</button>
+                                }
+                            >
+                                <Workbook.Sheet data={rows} name="LineListing">
+                                    {columns.map(({ column, name }, index) => (
+                                        <Workbook.Column label={column} value={name} key={index} />
+                                    ))}
+                                </Workbook.Sheet>
+                            </Workbook>
+                            <CSVLink
+                                data={rows}
+                                headers={columnEntity}
+                                filename={'LineListing.csv'}
+                                className="downloadButton"
+                                target=""
+                            >
+                                Export To Csv
+                            </CSVLink>
+                        </div>
                     ) : (
                         ''
                     )}
@@ -62,6 +79,7 @@ export default class MultiGridLineList extends React.PureComponent {
                             <ReactTable
                                 data={rows}
                                 filterable
+                                getTdProps={() => ({ style: { textAlign: 'center' } })}
                                 noDataText="No Data to display"
                                 defaultFilterMethod={(filter, row) => {
                                     const rowValue = String(row[filter.id]).toLowerCase();
