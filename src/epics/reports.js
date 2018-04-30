@@ -2,7 +2,7 @@ import { combineEpics } from 'redux-observable';
 import * as types from '../constants/actionTypes';
 import { apiFetch } from '../util/api';
 import { getMergedAnalytics } from '../util/analytics';
-import { getInstance as getD2 } from 'd2/lib/d2';
+// import { getInstance as getD2 } from 'd2/lib/d2';
 import { errorActionCreator } from '../actions/helpers';
 
 import { saveNewReportSuccess } from '../actions/reports';
@@ -68,24 +68,21 @@ export const getAnalyticsRequest = async (
     dataItems,
     eventCoordinateField
 ) => {
-    const d2 = await getD2();
+    let url = `/analytics/events/query/${program.id}.json?stage=${
+        programStage.id
+    }&dimension=ou:${orgUnits.map(ou => ou.id).join(',')}`;
 
-    let analyticsRequest = new d2.analytics.request()
-        .withProgram(program.id)
-        .withStage(programStage.id);
-
-    analyticsRequest =
+    url =
         period && period.id !== 'START_END_DATES'
-            ? analyticsRequest.addPeriodFilter(period.id)
-            : analyticsRequest.withStartDate(startDate).withEndDate(endDate);
+            ? `${url}&filter=pe:${period.id}`
+            : `${url}&startDate=${startDate}&endDate=${endDate}`;
 
-    analyticsRequest = analyticsRequest.addOrgUnitDimension(orgUnits.map(ou => ou.id));
     if (dataItems) {
-        dataItems.forEach(item => {
-            analyticsRequest = analyticsRequest.addDimension(item);
-        });
+        const dimensions = dataItems.map(id => `dimension=${id}`).join('&');
+        url = `${url}&${dimensions}`;
     }
-    return d2.analytics.events.getQuery(analyticsRequest);
+
+    return apiFetch(url, 'GET', null);
 };
 
 const transformForTableList = (analytics, attributes, dataElements, optionSets) => {

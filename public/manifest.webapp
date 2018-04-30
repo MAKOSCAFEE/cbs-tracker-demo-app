@@ -8,7 +8,7 @@
   },
   "appType": "APP",
   "name": "CBS Line Listing",
-  "version": "29.0.0",
+  "version": "28.0.0",
   "description": "CBS Line listing app for events",
   "icons": {
     "48": "icon.png"
@@ -17,7 +17,7 @@
     "name": "DHIS2"
   },
   "dhis2": {
-    "apiVersion": "29"
+    "apiVersion": "28"
   },
-  "manifest_generated_at": "Mon Apr 23 2018 10:26:58 GMT+0300 (EAT)"
+  "manifest_generated_at": "Mon Apr 30 2018 10:42:54 GMT+0300 (EAT)"
 }

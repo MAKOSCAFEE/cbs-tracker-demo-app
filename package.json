@@ -1,6 +1,6 @@
 {
     "name": "tracker-report",
-    "version": "29.0.0",
+    "version": "28.0.0",
     "private": true,
     "dependencies": {
         "autoprefixer": "7.1.6",
@@ -14,9 +14,9 @@
         "chalk": "1.1.3",
         "classnames": "^2.2.5",
         "css-loader": "0.28.7",
-        "d2": "^29.0.0",
+        "d2": "^28.0.0",
         "d2-manifest": "^1.0.0",
-        "d2-ui": "^29.0.10",
+        "d2-ui": "^28.0.0",
         "d2-ui-sharing": "^1.0.0",
         "d2-utilizr": "^0.2.15",
         "d3-color": "^1.0.3",
@@ -76,7 +76,7 @@
         "build": "node scripts/build.js",
         "prebuild": "rm -rf build && mkdir build && npm run manifest",
         "manifest": "d2-manifest package.json build/manifest.webapp",
-        "postbuild": "cd build && zip -r -D cbsLineListing.zip .",
+        "postbuild": "cd build && zip -r -D cbsLineListingv28.zip .",
         "test": "node scripts/test.js --env=jsdom"
     },
     "manifest.webapp": {
@@ -87,10 +87,10 @@
         },
         "developer": {
             "url": "",
-            "name": "DHIS2"
+            "name": "HISP Tanzania"
         },
         "dhis2": {
-            "apiVersion": "29"
+            "apiVersion": "28"
         },
         "activities": {
             "dhis": {
@@ -99,12 +99,8 @@
         }
     },
     "jest": {
-        "collectCoverageFrom": [
-            "src/**/*.{js,jsx,mjs}"
-        ],
-        "setupFiles": [
-            "<rootDir>/config/polyfills.js"
-        ],
+        "collectCoverageFrom": ["src/**/*.{js,jsx,mjs}"],
+        "setupFiles": ["<rootDir>/config/polyfills.js"],
         "testMatch": [
             "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
             "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
@@ -116,26 +112,14 @@
             "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
             "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
         },
-        "transformIgnorePatterns": [
-            "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-        ],
+        "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"],
         "moduleNameMapper": {
             "^react-native$": "react-native-web"
         },
-        "moduleFileExtensions": [
-            "web.js",
-            "mjs",
-            "js",
-            "json",
-            "web.jsx",
-            "jsx",
-            "node"
-        ]
+        "moduleFileExtensions": ["web.js", "mjs", "js", "json", "web.jsx", "jsx", "node"]
     },
     "babel": {
-        "presets": [
-            "react-app"
-        ]
+        "presets": ["react-app"]
     },
     "eslintConfig": {
         "extends": "react-app"

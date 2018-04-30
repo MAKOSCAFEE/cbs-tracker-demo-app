@@ -25,7 +25,7 @@ const init = () => {
     // d2-ui config
     const isProd = process.env.NODE_ENV === 'production';
     const baseUrl = isProd ? manifest.activities.dhis.href : DHIS_CONFIG.baseUrl;
-    config.baseUrl = `${baseUrl}/api/${manifest.dhis2.apiVersion}`;
+    config.baseUrl = `${baseUrl}/api`;
     config.headers = isProd ? null : { Authorization: DHIS_CONFIG.authorization };
 
     config.schemas = [
