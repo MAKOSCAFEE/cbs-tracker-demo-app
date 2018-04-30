@@ -14,10 +14,10 @@
     "48": "icon.png"
   },
   "developer": {
-    "name": "DHIS2"
+    "name": "HISP Tanzania"
   },
   "dhis2": {
     "apiVersion": "28"
   },
-  "manifest_generated_at": "Mon Apr 30 2018 10:42:54 GMT+0300 (EAT)"
+  "manifest_generated_at": "Mon Apr 30 2018 15:17:25 GMT+0300 (EAT)"
 }
