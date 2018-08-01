@@ -48,7 +48,8 @@ export const saveNewReport = (action$, store) =>
                     mergedAnalytics,
                     attributes,
                     programdataElements,
-                    optionSets
+                    optionSets,
+                    filters
                 );
                 return saveNewReportSuccess({ analytics: mergedAnalytics, linelist });
             })
@@ -88,13 +89,10 @@ export const getAnalyticsRequest = async (
     return d2.analytics.events.getQuery(analyticsRequest);
 };
 
-const transformForTableList = (analytics, attributes, dataElements, optionSets) => {
+const transformForTableList = (analytics, attributes, dataElements, optionSets, filters) => {
     const { headers, metaData, rows } = analytics;
     const defaultColumns = ['eventdate', 'ouname', 'longitude', 'latitude'];
-    const dataItems = [
-        ...defaultColumns,
-        ...[...attributes, ...dataElements].map(dataitem => dataitem.id)
-    ];
+    const dataItems = [...defaultColumns, ...filters];
     const columns = headers.filter(header => dataItems.includes(header.name));
     const attributesCount = attributes.length;
     let columnsSize = {};
