@@ -15,8 +15,10 @@ import SelectionGroupEditorContainer from './containers/DataElementGroupEditor';
 import './index.css';
 
 import { saveNewReport } from '../actions/reports';
+import { saveDataStore } from '../actions/dataStore';
 import { setPeriodType, setPeriod, setStartDate, setEndDate } from '../actions/form';
 import { loadAllOptionSet } from '../actions/optionSets';
+import { checkDataStore } from '../actions/dataStore';
 import { EVENT_START_DATE, EVENT_END_DATE } from '../constants/periods';
 
 const styles = {
@@ -43,8 +45,9 @@ const styles = {
 class SidebarComponent extends Component {
   constructor(props) {
     super(props);
-    const { loadAllOptionSet } = this.props;
+    const { loadAllOptionSet, checkDataStore } = this.props;
     loadAllOptionSet();
+    checkDataStore();
   }
 
   state = {
@@ -118,7 +121,15 @@ class SidebarComponent extends Component {
     saveNewReport();
   };
 
+  saveReportDataStore = () => {
+    const { saveDataStore, form } = this.props;
+    saveDataStore(form);
+  };
+
   render() {
+    const Buttonstyle = {
+      marginTop: 12
+    };
     const { form, setPeriod, setStartDate, setEndDate } = this.props;
     const periodError = 'Period is Required';
     const { period, startDate, endDate, orgUnits, filters } = form;
@@ -143,7 +154,11 @@ class SidebarComponent extends Component {
           {/* <SelectionGroupEditor /> */}
           <div className="selectionGroupSelect">
             <div>Data Filter ({(filters && filters.length && `${filters.length} selected`) || 'None is selected'})</div>
-            <IconButton onClick={this.toggleDataFilterDialog} className="button">
+            <IconButton
+              onClick={this.toggleDataFilterDialog}
+              className="button"
+              disabled={!(form && form.program && form.programStages)}
+            >
               <SvgIcon icon="Create" />
             </IconButton>
           </div>
@@ -200,6 +215,16 @@ class SidebarComponent extends Component {
             onClick={this.generateReport}
             primary={true}
             fullWidth={true}
+            style={Buttonstyle}
+            disabled={!enableSubmit}
+          />
+          <br />
+          <RaisedButton
+            label="Save a Report"
+            onClick={this.saveReportDataStore}
+            primary={true}
+            fullWidth={true}
+            style={Buttonstyle}
             disabled={!enableSubmit}
           />
         </div>
@@ -229,10 +254,12 @@ export default connect(
   mapStateToProps,
   {
     saveNewReport,
+    saveDataStore,
     setPeriodType,
     setPeriod,
     setStartDate,
     loadAllOptionSet,
+    checkDataStore,
     setEndDate
   }
 )(SidebarComponent);

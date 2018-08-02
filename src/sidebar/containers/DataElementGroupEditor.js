@@ -38,10 +38,10 @@ class DataElementGroupEditor extends Component {
         open={open}
         actions={[
           <Button color="primary" onClick={() => onRequestClose()} selector="cancel">
-            {i18next.t('Cancel')}
+            {i18next.t('Close')}
           </Button>,
           <Button color="primary" onClick={() => onDataFilterSelect()} selector="update">
-            {i18next.t('Add OrgUnits')}
+            {i18next.t('Add Data Filters ')}
           </Button>
         ]}
       >

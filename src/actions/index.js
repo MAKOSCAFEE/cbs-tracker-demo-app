@@ -6,14 +6,16 @@ import * as fromOrgUnits from './orgUnits';
 import * as fromReports from './reports';
 import * as fromUser from './user';
 import * as fromOptionSets from './optionSets';
+import * as formDataStores from './dataStore';
 
 export {
-    fromHelpers,
-    fromLoading,
-    fromPrograms,
-    fromForm,
-    fromOrgUnits,
-    fromReports,
-    fromUser,
-    fromOptionSets
+  fromHelpers,
+  fromLoading,
+  fromPrograms,
+  fromForm,
+  fromOrgUnits,
+  fromReports,
+  fromUser,
+  fromOptionSets,
+  formDataStores
 };

@@ -28,7 +28,7 @@ class VisualizationContainer extends Component {
   }
 
   _handleOnchange(visualizationType) {
-    this.setState(state => ({ selected: visualizationType.id }));
+    this.setState({ selected: visualizationType.id });
   }
 }
 
