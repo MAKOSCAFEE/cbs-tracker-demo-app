@@ -30,6 +30,11 @@ export const saveDataStoreSuccess = values => ({
   values
 });
 
+export const selectDataStoreForm = form => ({
+  type: types.DATA_STORE_SELECT_FORM,
+  form
+});
+
 export const checkDataStore = () => ({
   type: types.DATA_STORE_CHECK
 });

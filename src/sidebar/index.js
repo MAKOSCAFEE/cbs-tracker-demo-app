@@ -11,6 +11,8 @@ import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import SvgIcon from 'd2-ui/lib/svg-icon/SvgIcon';
 import DatePicker from './components/DatePicker';
+import DataStoreSave from './components/DataStoreSave';
+import DataStoreFormSelect from './components/DataStoreFormSelect';
 import SelectionGroupEditorContainer from './containers/DataElementGroupEditor';
 import './index.css';
 
@@ -121,11 +123,6 @@ class SidebarComponent extends Component {
     saveNewReport();
   };
 
-  saveReportDataStore = () => {
-    const { saveDataStore, form } = this.props;
-    saveDataStore(form);
-  };
-
   render() {
     const Buttonstyle = {
       marginTop: 12
@@ -147,8 +144,9 @@ class SidebarComponent extends Component {
         </button>
         <div className={'leftBar ' + (this.state.sidebarClosed ? 'is-closed' : '')}>
           <div className="title-wrapper">
-            <span className="title">CBS Line Listing</span>
+            <span className="title">Tracker Report App</span>
           </div>
+          <DataStoreFormSelect />
           <ProgramSelect />
           <ProgramStageSelect />
           {/* <SelectionGroupEditor /> */}
@@ -218,15 +216,7 @@ class SidebarComponent extends Component {
             style={Buttonstyle}
             disabled={!enableSubmit}
           />
-          <br />
-          <RaisedButton
-            label="Save a Report"
-            onClick={this.saveReportDataStore}
-            primary={true}
-            fullWidth={true}
-            style={Buttonstyle}
-            disabled={!enableSubmit}
-          />
+          <DataStoreSave disabled={!enableSubmit} />
         </div>
       </div>
     );

@@ -2,6 +2,7 @@ import * as types from '../constants/actionTypes';
 
 const initialdata = {
   namespace: null,
+  selected: null,
   keys: []
 };
 
@@ -21,10 +22,19 @@ const dataStore = (state = initialdata, action) => {
         namespace
       };
 
-    case types.DATA_STORE_SAVE_SUCCESS:
-      console.log(action);
+    case types.DATA_STORE_SELECT_FORM:
+      const { form } = action;
       return {
-        ...state
+        ...state,
+        selected: form.id
+      };
+
+    case types.DATA_STORE_SAVE_SUCCESS:
+      const keyValue = action.values;
+      const filteredKeys = state.keys.filter(key => key.id !== keyValue.id);
+      return {
+        ...state,
+        keys: [...filteredKeys, keyValue]
       };
     default:
       return state;

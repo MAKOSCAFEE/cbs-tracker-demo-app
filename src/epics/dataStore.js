@@ -10,6 +10,7 @@ import { getInstance as getD2 } from 'd2/lib/d2';
 import 'rxjs/add/operator/concatMap';
 import { errorActionCreator } from '../actions/helpers';
 import { generateUid } from 'd2/lib/uid';
+import { loadProgramTrackedEntityAttributes, loadProgramStageDataElements } from '../actions/programs';
 
 const DATA_STORE_NAME_SPACE = 'tracker-report-app';
 // Save existing report
@@ -43,20 +44,25 @@ export const loadDataStore$ = action$ =>
       .catch(errorActionCreator(types.DATA_STORE_LOAD_FAIL))
   );
 
-export const saveDataStore$ = action$ =>
-  action$.ofType(types.DATA_STORE_SAVE).concatMap(({ values }) =>
-    getD2()
-      .then(d2 => d2.dataStore.get(DATA_STORE_NAME_SPACE))
-      .then(namespace => {
-        const key = values.id || generateUid();
-        const keyValue = {
-          ...values,
-          id: key
-        };
-        return namespace.set(key, keyValue);
-      })
-      .then(response => saveDataStoreSuccess(response))
-      .catch(errorActionCreator(types.DATA_STORE_SAVE_SUCCESS))
-  );
+export const selectDataStoreForm$ = action$ =>
+  action$.ofType(types.DATA_STORE_SELECT_FORM).mergeMap(({ form }) => {
+    const { program, programStages } = form;
+    const actionsStages = programStages.map(stage => loadProgramStageDataElements(stage));
+    return [...actionsStages, loadProgramTrackedEntityAttributes(program)];
+  });
 
-export default combineEpics(checkDataStore$, createDataStore$, loadDataStore$, saveDataStore$);
+export const saveDataStore$ = action$ =>
+  action$.ofType(types.DATA_STORE_SAVE).concatMap(({ values }) => {
+    const key = values.id || generateUid();
+    const keyValue = {
+      ...values,
+      id: key
+    };
+    return getD2()
+      .then(d2 => d2.dataStore.get(DATA_STORE_NAME_SPACE))
+      .then(namespace => namespace.set(key, keyValue))
+      .then(() => saveDataStoreSuccess(keyValue))
+      .catch(errorActionCreator(types.DATA_STORE_SAVE_SUCCESS));
+  });
+
+export default combineEpics(checkDataStore$, createDataStore$, loadDataStore$, saveDataStore$, selectDataStoreForm$);

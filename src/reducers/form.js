@@ -49,6 +49,11 @@ const form = (state = {}, action) => {
         ...state,
         endDate: action.endDate
       };
+
+    case types.DATA_STORE_SELECT_FORM:
+      return {
+        ...action.form
+      };
     default:
       return state;
   }
