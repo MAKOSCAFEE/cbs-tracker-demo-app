@@ -13,20 +13,22 @@ import form from './form';
 import reports from './reports';
 import userSettings from './userSettings';
 import optionSets from './optionSets';
+import dataStore from './dataStore';
 
 export default combineReducers({
-    orgUnit,
-    orgUnitTree,
-    orgUnitGroupSets,
-    orgUnitGroups,
-    orgUnitLevels,
-    programs,
-    programDataElements,
-    programStages,
-    programStageDataElements,
-    programTrackedEntityAttributes,
-    form,
-    reports,
-    optionSets,
-    userSettings
+  orgUnit,
+  orgUnitTree,
+  orgUnitGroupSets,
+  orgUnitGroups,
+  orgUnitLevels,
+  programs,
+  programDataElements,
+  programStages,
+  programStageDataElements,
+  programTrackedEntityAttributes,
+  form,
+  reports,
+  optionSets,
+  userSettings,
+  dataStore
 });
