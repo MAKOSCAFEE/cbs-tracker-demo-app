@@ -57,6 +57,19 @@ export const getAnalyticsRequest = async (program, programStage, period, startDa
   return d2.analytics.events.getQuery(analyticsRequest);
 };
 
+// Also used to query for server cluster in map/EventLayer.js
+export const getTeiValues = async (program, orgUnits, attributes) => {
+  const d2 = await getD2();
+  const api = d2.Api.getApi();
+  const orgUnitSeparatedByColon = orgUnits.map(({ id }) => id).join(';');
+  console.log({ program, orgUnitSeparatedByColon, attributes });
+  const url = `trackedEntityInstances/query.json?ou=${orgUnitSeparatedByColon}&ouMode=DESCENDANTS&program=${
+    program.id
+  }&paging=false`;
+  const teis = api.fetch(url);
+  console.log(teis);
+};
+
 const transformForTableList = (analytics, attributes, dataElements, optionSets, filters) => {
   const { headers, metaData, rows } = analytics;
   const defaultColumns = ['eventdate', 'ouname', 'longitude', 'latitude'];
