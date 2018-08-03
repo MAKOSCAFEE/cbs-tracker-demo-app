@@ -17,7 +17,7 @@ class DataStoreFormSelect extends Component {
 
     return (
       <div className="dataStoreSelect">
-        <div>Saved Reports</div>
+        <div>Select saved reports</div>
         <SelectField items={dataStore.keys} value={selected} onChange={this._handleOnchange} />
       </div>
     );
