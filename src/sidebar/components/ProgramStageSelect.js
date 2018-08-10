@@ -18,7 +18,6 @@ class ProgramStageSelect extends Component {
     const { form, programStages } = this.props;
 
     const items = programStages && programStages[form.program];
-    console.log(items);
     const selectedStages =
       (form &&
         form.programStages &&
