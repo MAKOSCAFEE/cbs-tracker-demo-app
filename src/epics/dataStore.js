@@ -10,7 +10,11 @@ import { getInstance as getD2 } from 'd2/lib/d2';
 import 'rxjs/add/operator/concatMap';
 import { errorActionCreator } from '../actions/helpers';
 import { generateUid } from 'd2/lib/uid';
-import { loadProgramTrackedEntityAttributes, loadProgramStageDataElements } from '../actions/programs';
+import {
+  loadProgramTrackedEntityAttributes,
+  loadProgramStageDataElements,
+  loadProgramStages
+} from '../actions/programs';
 
 const DATA_STORE_NAME_SPACE = 'tracker-report-app';
 // Save existing report
@@ -48,7 +52,7 @@ export const selectDataStoreForm$ = action$ =>
   action$.ofType(types.DATA_STORE_SELECT_FORM).mergeMap(({ form }) => {
     const { program, programStages } = form;
     const actionsStages = programStages.map(stage => loadProgramStageDataElements(stage));
-    return [...actionsStages, loadProgramTrackedEntityAttributes(program)];
+    return [...actionsStages, loadProgramStages(program), loadProgramTrackedEntityAttributes(program)];
   });
 
 export const saveDataStore$ = action$ =>

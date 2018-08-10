@@ -7,9 +7,9 @@
     }
   },
   "appType": "APP",
-  "name": "CBS Line Listing",
+  "name": "Tracker Report App",
   "version": "29.0.0",
-  "description": "CBS Line listing app for events",
+  "description": "Tracker Report App app for events",
   "icons": {
     "48": "icon.png"
   },
@@ -19,5 +19,5 @@
   "dhis2": {
     "apiVersion": "29"
   },
-  "manifest_generated_at": "Wed Aug 01 2018 13:59:56 GMT+0300 (EAT)"
+  "manifest_generated_at": "Fri Aug 10 2018 09:18:06 GMT+0300 (EAT)"
 }
